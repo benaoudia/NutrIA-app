@@ -140,6 +140,11 @@ Widget _buildTextField(
     initialValue: initialValue,
     decoration: InputDecoration(
       labelText: label,
+      labelStyle: TextStyle(
+        color: Colors.grey[750],
+        fontSize: 16,
+        
+      ),
       border: const OutlineInputBorder(),
     ),
     onChanged: onChanged,

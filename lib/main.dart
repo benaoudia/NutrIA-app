@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.white,
         body:
         ProfileScreenBuilder() 
         // PersonRalInfoBuilder(), //calling the widgets here

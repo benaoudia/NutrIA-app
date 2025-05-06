@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutria/Blocs/profile_blocs/profileBloc.dart';
 import 'package:nutria/Screens/Profile%20and%20user%20info/form_items.dart';
+import 'package:nutria/Widgets/assets/colors.dart';
 
 class ProfileScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -13,6 +14,10 @@ class ProfileScreen extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
+          pinned: false,
+          floating: false,
+          elevation: 0,
+          backgroundColor: Colors.white,
           leading: Icon(Icons.arrow_back_ios_new , color: Colors.grey[700],),
           title: Column(
             children: [
@@ -40,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
               else if (state is PersonalInfoLoaded){
                 final cubit = context.read<PersonalInfoCubit>();
                   return SliverPadding(
-                    padding: EdgeInsets.all(0),
+                    padding: EdgeInsets.all(20.0),
                     sliver: 
                     build_form(_formKey,cubit, state,context),
                     // SliverList(
@@ -159,13 +164,28 @@ Widget _buildTextField(
       onChanged: (val) => onChanged(val),
     );
   }
-  return TextFormField(
+  return Column(
+    children: [
+      TextFormField(
     initialValue: initialValue,
     decoration: InputDecoration(
       labelText: label,
+      labelStyle: TextStyle(
+        color: Colors.grey[500],
+        fontSize: 20,
+      ),
       border: const OutlineInputBorder(),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: buttons_blue,
+          width: 2.0,
+        )
+      )
     ),
     onChanged: onChanged,
+  ),
+  SizedBox(height: 35,)
+    ],
   );
 }
 
@@ -177,11 +197,23 @@ Widget _buildDropdownField({
   required List<String> items,
   required Function(String?) onChanged,
 }){
-  return DropdownButtonFormField<String>(
+  return Column(
+    children: [
+      DropdownButtonFormField<String>(
     value: value,
     decoration: InputDecoration(
       labelText: label,
+      labelStyle: TextStyle(
+        color: Colors.grey[500],
+        fontSize: 20,
+      ),
       border: const OutlineInputBorder(),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: buttons_blue,
+          width: 2.0,
+        )
+      )
     ),
     items: items.map((String item){
       return DropdownMenuItem(
@@ -190,6 +222,9 @@ Widget _buildDropdownField({
       );
     }).toList(),
     onChanged: onChanged,
+  ),
+  SizedBox(height:35 ,)
+    ],
   );
 
 }
@@ -206,7 +241,17 @@ Widget _buildDateField({
     initialValue: initialValue,
     decoration: InputDecoration(
       labelText: label,
+      labelStyle: TextStyle(
+        color: Colors.grey[500],
+        fontSize: 20,
+      ),
       border: const OutlineInputBorder(),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: buttons_blue,
+          width: 2.0,
+        )
+      ),
       hintText: 'YYYY-MM-DD',
       suffixIcon: const Icon(Icons.calendar_today), 
     ),
