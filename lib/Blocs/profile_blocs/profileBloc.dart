@@ -136,6 +136,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -156,6 +157,28 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
+        ),
+      ));
+    }
+  }
+
+  void updatePhone(String phone) {
+    if (state is PersonalInfoLoaded) {
+      final currentState = state as PersonalInfoLoaded;
+      emit(currentState.copyWith(
+        phone: phone,
+        isFormValid: _validateForm(
+          name: currentState.name,
+          email: currentState.email,
+          country: currentState.country,
+          height: currentState.height,
+          weight: currentState.weight,
+          activityLevel: currentState.activityLevel,
+          gender: currentState.gender,
+          goal: currentState.goal,
+          birthdate: currentState.birthdate,
+          phone: phone,
         ),
       ));
     }
@@ -176,6 +199,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -196,6 +220,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -216,6 +241,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -236,6 +262,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -256,6 +283,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -276,6 +304,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -296,6 +325,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: goal,
           birthdate: currentState.birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -316,6 +346,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           gender: currentState.gender,
           goal: currentState.goal,
           birthdate: birthdate,
+          phone: currentState.phone,
         ),
       ));
     }
@@ -331,6 +362,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     required String gender,
     required String goal,
     required DateTime birthdate,
+    required String phone,
   }) {
     bool isNameValid = name.trim().isNotEmpty;
     bool isEmailValid = email.trim().isNotEmpty && email.contains('@');
@@ -340,12 +372,13 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     bool isActivityLevelValid = activityLevel.trim().isNotEmpty;
     bool isGenderValid = gender.trim().isNotEmpty;
     bool isGoalValid = goal.trim().isNotEmpty;
+    bool isPhoneValid = phone.trim().length >= 10;  // Example: validate phone length
 
     final now = DateTime.now();
     final age = now.year - birthdate.year - (now.month > birthdate.month || (now.month == birthdate.month && now.day >= birthdate.day) ? 0 : 1);
     bool isAgeValid = age >= 10;
 
-    return isNameValid && isEmailValid && isCountryValid && isHeightValid && isWeightValid && isActivityLevelValid && isGenderValid && isGoalValid && isAgeValid;
+    return isNameValid && isEmailValid && isCountryValid && isHeightValid && isWeightValid && isActivityLevelValid && isGenderValid && isGoalValid && isPhoneValid && isAgeValid;
   }
 
   bool validateForm() {
@@ -361,6 +394,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
         gender: currentState.gender,
         goal: currentState.goal,
         birthdate: currentState.birthdate,
+        phone: currentState.phone,
       );
       
       emit(currentState.copyWith(isFormValid: isValid));
