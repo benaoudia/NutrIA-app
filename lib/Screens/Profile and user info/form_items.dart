@@ -3,13 +3,13 @@ import 'package:nutria/Blocs/profile_blocs/profileBloc.dart';
 final labels = [
   {
     'label': 'Your height',
-    'initial': (PersonalInfoLoaded state) => state.height.toString(),
+    'initial': (PersonalInfoLoaded state) => (state.height == 0 || state.height == null) ? '0' : state.height.toString(),
     'update': (PersonalInfoCubit cubit, String val) =>
         cubit.updateHeight(int.tryParse(val) ?? 0),
   },
   {
     'label': 'Your weight',
-    'initial': (PersonalInfoLoaded state) => state.weight.toString(),
+    'initial': (PersonalInfoLoaded state) => (state.weight == 0 || state.weight == null) ? '0' : state.weight.toString(),
     'update': (PersonalInfoCubit cubit, String val) =>
         cubit.updateWeight(int.tryParse(val) ?? 0),
   },
