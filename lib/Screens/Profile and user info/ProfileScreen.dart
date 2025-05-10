@@ -235,33 +235,22 @@ Widget buildDropdownField({
   );
 }
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  int step = 0;
-
-  // Controllers and focus nodes for text fields
-  final Map<String, TextEditingController> _controllers = {};
-  final Map<String, FocusNode> _focusNodes = {};
-
   // Dropdown options
-  final genderOptions = ['Male', 'Female'];
-  final activityOptions = [
+  static const genderOptions = ['Male', 'Female'];
+  static const activityOptions = [
     'Sedentary',
     'Lightly active',
     'Moderately active',
     'Very active',
     'Extra active',
   ];
-  final goalOptions = ['Lose weight', 'Maintain weight', 'Gain weight'];
+  static const goalOptions = ['Lose weight', 'Maintain weight', 'Gain weight'];
 
   // Icon mapping
-  final Map<String, IconData> fieldIcons = {
+  static const Map<String, IconData> fieldIcons = {
     'Your name': Icons.person,
     'Your phone number': Icons.phone,
     'Your email': Icons.email,
@@ -274,7 +263,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'Birthdate': Icons.cake,
   };
 
-  // Keyboard type mapping
   TextInputType getKeyboardType(String label) {
     switch (label) {
       case 'Your phone number':
@@ -287,33 +275,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       default:
         return TextInputType.text;
     }
-  }
-
-  // Avatar selection
-  String? selectedAvatarUrl;
-  final List<String> avatarUrls = [
-    // Animals (DiceBear lorelei)
-    'https://api.dicebear.com/6.x/lorelei/png?seed=cat',
-    'https://api.dicebear.com/6.x/lorelei/png?seed=dog',
-    'https://api.dicebear.com/6.x/lorelei/png?seed=fox',
-    'https://api.dicebear.com/6.x/lorelei/png?seed=owl',
-    // Flowers (openclipart)
-    'https://openclipart.org/image/400px/307039', // flower 1
-    'https://openclipart.org/image/400px/307040', // flower 2
-    // Cars (openclipart)
-    'https://openclipart.org/image/400px/307252', // car 1
-    'https://openclipart.org/image/400px/307253', // car 2
-  ];
-
-  @override
-  void dispose() {
-    for (final controller in _controllers.values) {
-      controller.dispose();
-    }
-    for (final node in _focusNodes.values) {
-      node.dispose();
-    }
-    super.dispose();
   }
 
   @override
@@ -333,6 +294,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (state is! PersonalInfoLoaded) {
               return const Center(child: CircularProgressIndicator());
             }
+            final step = state.step;
             final items = step == 0 ? personal_info.labels : form_info.labels;
             return Stack(
               children: [
@@ -542,14 +504,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                           // Date field
                                           if (label == 'Birthdate') {
-                                            _controllers.putIfAbsent(label, () => TextEditingController());
-                                            _focusNodes.putIfAbsent(label, () => FocusNode());
-                                            final controller = _controllers[label]!;
-                                            final focusNode = _focusNodes[label]!;
-                                            if (controller.text != initial) {
-                                              controller.text = initial ?? '';
-                                            }
-                                            focusNode.onKeyEvent = null;
+                                            final controller = TextEditingController(text: initial ?? '');
+                                            final focusNode = FocusNode();
                                             return TextFormField(
                                               controller: controller,
                                               focusNode: focusNode,
@@ -593,21 +549,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     context.read<PersonalInfoCubit>(),
                                                     picked.toIso8601String().split('T').first,
                                                   );
-                                                  setState(() {});
                                                 }
                                               },
                                             );
                                           }
 
                                           // Default text field with controller and focus node
-                                          _controllers.putIfAbsent(label, () => TextEditingController());
-                                          _focusNodes.putIfAbsent(label, () => FocusNode());
-                                          final controller = _controllers[label]!;
-                                          final focusNode = _focusNodes[label]!;
-                                          if (controller.text != initial) {
-                                            controller.text = initial ?? '';
-                                          }
-                                          focusNode.onKeyEvent = null; // clear any previous listeners
+                                          final controller = TextEditingController(text: initial ?? '');
+                                          final focusNode = FocusNode();
                                           return TextFormField(
                                             controller: controller,
                                             focusNode: focusNode,
@@ -647,9 +596,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           child: const Text('Next', style: TextStyle(color: Colors.white)),
                                           onPressed: () {
-                                            setState(() {
-                                              step = 1;
-                                            });
+                                            context.read<PersonalInfoCubit>().goToStep(1);
                                           },
                                         ),
                                       ),
@@ -688,9 +635,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                step = 0;
-                                              });
+                                              context.read<PersonalInfoCubit>().goToStep(0);
                                             },
                                             child: Row(
                                               children: [
@@ -846,14 +791,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 );
                                               }
                                               if (label == 'Birthdate') {
-                                                _controllers.putIfAbsent(label, () => TextEditingController());
-                                                _focusNodes.putIfAbsent(label, () => FocusNode());
-                                                final controller = _controllers[label]!;
-                                                final focusNode = _focusNodes[label]!;
-                                                if (controller.text != initial) {
-                                                  controller.text = initial ?? '';
-                                                }
-                                                focusNode.onKeyEvent = null;
+                                                final controller = TextEditingController(text: initial ?? '');
+                                                final focusNode = FocusNode();
                                                 return TextFormField(
                                                   controller: controller,
                                                   focusNode: focusNode,
@@ -897,20 +836,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         context.read<PersonalInfoCubit>(),
                                                         picked.toIso8601String().split('T').first,
                                                       );
-                                                      setState(() {});
                                                     }
                                                   },
                                                 );
                                               }
                                               // Default text field
-                                              _controllers.putIfAbsent(label, () => TextEditingController());
-                                              _focusNodes.putIfAbsent(label, () => FocusNode());
-                                              final controller = _controllers[label]!;
-                                              final focusNode = _focusNodes[label]!;
-                                              if (controller.text != initial) {
-                                                controller.text = initial ?? '';
-                                              }
-                                              focusNode.onKeyEvent = null; // clear any previous listeners
+                                              final controller = TextEditingController(text: initial ?? '');
+                                              final focusNode = FocusNode();
                                               return TextFormField(
                                                 controller: controller,
                                                 focusNode: focusNode,

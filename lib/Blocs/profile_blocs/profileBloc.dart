@@ -26,6 +26,7 @@ class PersonalInfoLoaded extends PersonalInfoState {
   final String goal;
   final DateTime birthdate;
   final bool isFormValid;
+  final int step;
 
   PersonalInfoLoaded({
     this.name = 'name',
@@ -40,6 +41,7 @@ class PersonalInfoLoaded extends PersonalInfoState {
     this.goal = '',
     DateTime? birthdate,
     this.isFormValid = false,
+    this.step = 0,
   }) : birthdate = birthdate ?? DateTime.utc(2000, 1, 1);
 
   PersonalInfoLoaded copyWith({
@@ -55,6 +57,7 @@ class PersonalInfoLoaded extends PersonalInfoState {
     String? goal,
     DateTime? birthdate,
     bool? isFormValid,
+    int? step,
   }) {
     return PersonalInfoLoaded(
       name: name ?? this.name,
@@ -69,6 +72,7 @@ class PersonalInfoLoaded extends PersonalInfoState {
       goal: goal ?? this.goal,
       birthdate: birthdate ?? this.birthdate,
       isFormValid: isFormValid ?? this.isFormValid,
+      step: step ?? this.step,
     );
   }
 
@@ -85,24 +89,26 @@ class PersonalInfoLoaded extends PersonalInfoState {
       'allergies': allergies,
       'goal': goal,
       'birthdate': birthdate.toIso8601String(),
+      'step': step,
     };
   }
 
   @override
   List<Object?> get props => [
-        name,
-        email,
-        phone,
-        country,
-        height,
-        weight,
-        activityLevel,
-        gender,
-        allergies,
-        goal,
-        birthdate,
-        isFormValid,
-      ];
+    name,
+    email,
+    phone,
+    country,
+    height,
+    weight,
+    activityLevel,
+    gender,
+    allergies,
+    goal,
+    birthdate,
+    isFormValid,
+    step,
+  ];
 }
 
 class PersonalInfoError extends PersonalInfoState {
@@ -419,6 +425,13 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
       } catch (e) {
         emit(PersonalInfoError('Failed to submit form: ${e.toString()}'));
       }
+    }
+  }
+
+  void goToStep(int step) {
+    if (state is PersonalInfoLoaded) {
+      final currentState = state as PersonalInfoLoaded;
+      emit(currentState.copyWith(step: step));
     }
   }
 }
