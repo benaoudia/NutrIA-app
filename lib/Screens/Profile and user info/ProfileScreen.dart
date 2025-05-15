@@ -555,13 +555,12 @@ class ProfileScreen extends StatelessWidget {
                                           }
 
                                           // Default text field with controller and focus node
-                                          final controller = TextEditingController(text: initial ?? '');
-                                          final focusNode = FocusNode();
                                           return TextFormField(
-                                            controller: controller,
-                                            focusNode: focusNode,
+                                            initialValue: initial ?? '',
                                             keyboardType: getKeyboardType(label),
                                             cursorColor: Colors.grey[700],
+                                            textAlign: TextAlign.start,
+                                            style: const TextStyle(fontSize: 16),
                                             decoration: InputDecoration(
                                               labelText: label,
                                               prefixIcon: Icon(icon, color: buttons_blue),
@@ -575,11 +574,29 @@ class ProfileScreen extends StatelessWidget {
                                               labelStyle: TextStyle(color: Colors.grey[700]),
                                               contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                                             ),
-                                            onTap: () {
-                                              controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
-                                            },
                                             onChanged: (val) {
-                                              (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                              if (label == 'Your height' || label == 'Your weight') {
+                                                final number = int.tryParse(val);
+                                                if (number != null) {
+                                                  if (label == 'Your height') {
+                                                    context.read<PersonalInfoCubit>().updateHeight(number);
+                                                  } else {
+                                                    context.read<PersonalInfoCubit>().updateWeight(number);
+                                                  }
+                                                }
+                                              } else {
+                                                switch (label) {
+                                                  case 'Your name':
+                                                    context.read<PersonalInfoCubit>().updateName(val);
+                                                    break;
+                                                  case 'Your email':
+                                                    context.read<PersonalInfoCubit>().updateEmail(val);
+                                                    break;
+                                                  case 'Your phone number':
+                                                    context.read<PersonalInfoCubit>().updatePhone(val);
+                                                    break;
+                                                }
+                                              }
                                             },
                                           );
                                         },
@@ -841,13 +858,12 @@ class ProfileScreen extends StatelessWidget {
                                                 );
                                               }
                                               // Default text field
-                                              final controller = TextEditingController(text: initial ?? '');
-                                              final focusNode = FocusNode();
                                               return TextFormField(
-                                                controller: controller,
-                                                focusNode: focusNode,
+                                                initialValue: initial ?? '',
                                                 keyboardType: getKeyboardType(label),
                                                 cursorColor: Colors.grey[700],
+                                                textAlign: TextAlign.start,
+                                                style: const TextStyle(fontSize: 16),
                                                 decoration: InputDecoration(
                                                   labelText: label,
                                                   prefixIcon: Icon(icon, color: buttons_blue),
@@ -861,11 +877,29 @@ class ProfileScreen extends StatelessWidget {
                                                   labelStyle: TextStyle(color: Colors.grey[700]),
                                                   contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                                                 ),
-                                                onTap: () {
-                                                  controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
-                                                },
                                                 onChanged: (val) {
-                                                  (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                  if (label == 'Your height' || label == 'Your weight') {
+                                                    final number = int.tryParse(val);
+                                                    if (number != null) {
+                                                      if (label == 'Your height') {
+                                                        context.read<PersonalInfoCubit>().updateHeight(number);
+                                                      } else {
+                                                        context.read<PersonalInfoCubit>().updateWeight(number);
+                                                      }
+                                                    }
+                                                  } else {
+                                                    switch (label) {
+                                                      case 'Your name':
+                                                        context.read<PersonalInfoCubit>().updateName(val);
+                                                        break;
+                                                      case 'Your email':
+                                                        context.read<PersonalInfoCubit>().updateEmail(val);
+                                                        break;
+                                                      case 'Your phone number':
+                                                        context.read<PersonalInfoCubit>().updatePhone(val);
+                                                        break;
+                                                    }
+                                                  }
                                                 },
                                               );
                                             },

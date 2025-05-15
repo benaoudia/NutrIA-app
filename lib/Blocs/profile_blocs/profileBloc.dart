@@ -29,10 +29,10 @@ class PersonalInfoLoaded extends PersonalInfoState {
   final int step;
 
   PersonalInfoLoaded({
-    this.name = 'name',
-    this.email = 'email',
-    this.phone = '00-00-00',
-    this.country = 'country',
+    this.name = '',
+    this.email = '',
+    this.phone = '',
+    this.country = '',
     this.height = 0,
     this.weight = 0,
     this.activityLevel = '',
@@ -132,18 +132,6 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
       final currentState = state as PersonalInfoLoaded;
       emit(currentState.copyWith(
         name: name,
-        isFormValid: _validateForm(
-          name: name,
-          email: currentState.email,
-          country: currentState.country,
-          height: currentState.height,
-          weight: currentState.weight,
-          activityLevel: currentState.activityLevel,
-          gender: currentState.gender,
-          goal: currentState.goal,
-          birthdate: currentState.birthdate,
-          phone: currentState.phone,
-        ),
       ));
     }
   }
@@ -153,18 +141,6 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
       final currentState = state as PersonalInfoLoaded;
       emit(currentState.copyWith(
         email: email,
-        isFormValid: _validateForm(
-          name: currentState.name,
-          email: email,
-          country: currentState.country,
-          height: currentState.height,
-          weight: currentState.weight,
-          activityLevel: currentState.activityLevel,
-          gender: currentState.gender,
-          goal: currentState.goal,
-          birthdate: currentState.birthdate,
-          phone: currentState.phone,
-        ),
       ));
     }
   }
@@ -174,18 +150,6 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
       final currentState = state as PersonalInfoLoaded;
       emit(currentState.copyWith(
         phone: phone,
-        isFormValid: _validateForm(
-          name: currentState.name,
-          email: currentState.email,
-          country: currentState.country,
-          height: currentState.height,
-          weight: currentState.weight,
-          activityLevel: currentState.activityLevel,
-          gender: currentState.gender,
-          goal: currentState.goal,
-          birthdate: currentState.birthdate,
-          phone: phone,
-        ),
       ));
     }
   }
@@ -216,18 +180,6 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
       final currentState = state as PersonalInfoLoaded;
       emit(currentState.copyWith(
         height: height,
-        isFormValid: _validateForm(
-          name: currentState.name,
-          email: currentState.email,
-          country: currentState.country,
-          height: height,
-          weight: currentState.weight,
-          activityLevel: currentState.activityLevel,
-          gender: currentState.gender,
-          goal: currentState.goal,
-          birthdate: currentState.birthdate,
-          phone: currentState.phone,
-        ),
       ));
     }
   }
@@ -237,18 +189,6 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
       final currentState = state as PersonalInfoLoaded;
       emit(currentState.copyWith(
         weight: weight,
-        isFormValid: _validateForm(
-          name: currentState.name,
-          email: currentState.email,
-          country: currentState.country,
-          height: currentState.height,
-          weight: weight,
-          activityLevel: currentState.activityLevel,
-          gender: currentState.gender,
-          goal: currentState.goal,
-          birthdate: currentState.birthdate,
-          phone: currentState.phone,
-        ),
       ));
     }
   }
