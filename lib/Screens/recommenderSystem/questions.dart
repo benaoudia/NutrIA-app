@@ -1,195 +1,357 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nutria/Blocs/profile_blocs/profileBloc.dart';
-import 'package:nutria/Screens/Profile and user info/ProfileEditScreenBuilder.dart';
-import 'package:nutria/Screens/Profile and user info/PasswordChangeScreenBuilder.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:nutria/Widgets/assets/colors.dart';
 
-const Color buttons_blue = Color.fromARGB(255, 103, 138, 150);
+class Questions extends StatefulWidget {
+  const Questions({super.key});
 
-class RecommendationQuestionnaryScreen extends StatelessWidget {
-  const RecommendationQuestionnaryScreen({Key? key}) : super(key: key);
+  @override
+  _QuestionsState createState() => _QuestionsState();
+}
+
+class _QuestionsState extends State<Questions> {
+  final _formKey = GlobalKey<FormState>();
+
+  // Controllers for text fields
+  final TextEditingController restrictionsController = TextEditingController();
+  final TextEditingController allergiesController = TextEditingController();
+  final TextEditingController cookingTimeController = TextEditingController();
+
+  // Dropdown selected values
+  String? selectedMealType;
+  String? selectedCookingSkill;
+  String? selectedCuisine;
+  String? selectedFlavor;
+  String? selectedSpicyLevel;
+  int? selectedNumberOfMeals;
+
+  Map<String, dynamic> getMissingFields() {
+    return {
+      "Height": 170,
+      "Weight": 65,
+      "Activity_Level": "Moderately active",
+      "Gender": "female",
+      "Age": 28,
+      "Goal": "weight loss",
+    };
+  }
+
+  Future<void> sendRecommendationRequest() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    // Prepare form data
+    final Map<String, dynamic> formData = {
+      "Restrictions": restrictionsController.text.trim(),
+      "Allergies": allergiesController.text
+          .split(',')
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList(),
+      "Meal_type": selectedMealType?.toLowerCase(),
+      "Time": int.tryParse(cookingTimeController.text.trim()),
+      "Cooking_skills": selectedCookingSkill?.toLowerCase(),
+      "Cuisine": selectedCuisine,
+      "flavor": selectedFlavor?.toLowerCase(),
+      "Spicy_level": selectedSpicyLevel?.toLowerCase(),
+      "n_meals": selectedNumberOfMeals,
+    };
+
+    // Remove null or empty keys
+    formData.removeWhere((key, value) =>
+        value == null || (value is String && value.isEmpty) || (value is List && value.isEmpty));
+
+    // Add missing fields
+    formData.addAll(getMissingFields());
+
+    print('Sending JSON: $formData');
+
+    try {
+      final response = await http.post(
+        Uri.parse('https://fdfc-105-235-133-240.ngrok-free.app/recommand'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(formData),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print('Response data: $data');
+        // You can navigate or update UI based on response here
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Recommendation received!')),
+        );
+      } else {
+        print('Server error: ${response.statusCode}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Server error: ${response.statusCode}')),
+        );
+      }
+    } catch (e) {
+      print('Error sending request: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error sending request')),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    restrictionsController.dispose();
+    allergiesController.dispose();
+    cookingTimeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      body: BlocBuilder<PersonalInfoCubit, PersonalInfoState>(
-        builder: (context, state) {
-          if (state is! PersonalInfoLoaded) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return Stack(
-            children: [
-              // Header background
-              Container(
-                height: 200,
-                decoration: const BoxDecoration(
-                  color: buttons_blue,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(32),
-                    bottomRight: Radius.circular(32),
-                  ),
-                ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Profile icon
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.person, color: Colors.white, size: 32),
-                        ),
-                        const SizedBox(width: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Recommendation questionary",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              state.email,
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.grey[700]),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          "Your Info",
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.grey[700],
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.all(20.0),
+            sliver: SliverToBoxAdapter(
+              child: buildForm(),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ElevatedButton(
+          onPressed: sendRecommendationRequest,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: buttons_blue,
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                'Get recommendation',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-              // Profile content
-              Padding(
-                padding: const EdgeInsets.only(top: 140),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      // Profile card
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(32),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 16,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 24),
-                            // Personal Information Section
-                            _buildSection(
-                              'Meal information',
-                              [
-                                _buildInfoRow('Meal type', state.name),
-                                _buildInfoRow('Time', state.email),
-                                _buildInfoRow('Cooking skills', state.phone),
-                                _buildInfoRow('Flavor', state.country),
-                                _buildInfoRow('Spicy level', state.birthdate.toString().split(' ')[0]),
-                                _buildInfoRow('number of meals', state.birthdate.toString().split(' ')[0]),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            // Physical Information Section
-                            _buildSection(
-                              'Physical Information',
-                              [
-                                _buildInfoRow('Height', '${state.height} cm'),
-                                _buildInfoRow('Weight', '${state.weight} kg'),
-                                _buildInfoRow('Gender', state.gender),
-                                _buildInfoRow('Activity Level', state.activityLevel),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            // Goals Section
-                            _buildSection(
-                              'Goals & Preferences',
-                              [
-                                _buildInfoRow('Goal', state.goal),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              SizedBox(width: 8),
+              Icon(Icons.apple, color: Colors.white),
             ],
-          );
-        },
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildSection(String title, List<Widget> children) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: buttons_blue,
-          ),
-        ),
-        const SizedBox(height: 16),
-        ...children,
-      ],
-    );
-  }
-
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget buildForm() {
+    return Form(
+      key: _formKey,
+      child: Column(
         children: [
-          SizedBox(
-            width: 120,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w500,
+          buildTextField('Restrictions', controller: restrictionsController),
+          buildTextField('Allergies (comma separated)', controller: allergiesController),
+
+          // Meal type dropdown
+          buildDropdownField<String>(
+            label: 'Meal type',
+            items: const ['Breakfast', 'Lunch', 'Dinner', 'Snack'],
+            value: selectedMealType,
+            onChanged: (val) => setState(() => selectedMealType = val),
+            validator: (val) => val == null ? 'Please select a meal type' : null,
+          ),
+
+          // Cooking time field - accepts only numbers
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: TextFormField(
+              controller: cookingTimeController,
+              decoration: InputDecoration(
+                labelText: 'Cooking time (in minutes)',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: buttons_blue,
+                    width: 2.0,
+                  ),
+                ),
               ),
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              validator: (val) =>
+                  val == null || val.isEmpty ? 'Please enter cooking time' : null,
             ),
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+
+          // Cooking skills dropdown
+          buildDropdownField<String>(
+            label: 'Cooking skills',
+            items: const ['Beginner', 'Intermediate', 'Advanced'],
+            value: selectedCookingSkill,
+            onChanged: (val) => setState(() => selectedCookingSkill = val),
+            validator: (val) => val == null ? 'Please select cooking skills level' : null,
+          ),
+
+          // Cuisine dropdown
+          buildDropdownField<String>(
+            label: 'Cuisine',
+            items: const [
+              'Italian',
+              'French',
+              'Japanese',
+              'Chinese',
+              'Indian',
+              'Mexican',
+              'Thai',
+              'Korean',
+              'Mediterranean',
+              'American',
+              'Middle Eastern',
+              'Spanish',
+              'Vietnamese',
+              'Greek',
+              'Turkish',
+              'Brazilian',
+              'Moroccan',
+              'Ethiopian',
+              'Caribbean',
+              'German',
+            ],
+            value: selectedCuisine,
+            onChanged: (val) => setState(() => selectedCuisine = val),
+            validator: (val) => val == null ? 'Please select a cuisine' : null,
+          ),
+
+          // Flavor dropdown
+          buildDropdownField<String>(
+            label: 'Flavor',
+            items: const [
+              'Sweet',
+              'Savory',
+              'Sour',
+              'Bitter',
+              'Umami',
+              'Salty',
+              'Spicy',
+              'Smoky',
+              'Fruity',
+              'Earthy',
+              'Herby',
+              'Tangy',
+              'Nutty',
+              'Creamy',
+              'Zesty',
+              'Garlicky',
+              'Buttery',
+            ],
+            value: selectedFlavor,
+            onChanged: (val) => setState(() => selectedFlavor = val),
+            validator: (val) => val == null ? 'Please select a flavor' : null,
+          ),
+
+          // Spicy level dropdown
+          buildDropdownField<String>(
+            label: 'Spicy level',
+            items: const ['Plain', 'Spicy', 'Very Spicy'],
+            value: selectedSpicyLevel,
+            onChanged: (val) => setState(() => selectedSpicyLevel = val),
+            validator: (val) => val == null ? 'Please select a spicy level' : null,
+          ),
+
+          // Number of meals dropdown
+          buildDropdownField<int>(
+            label: 'Number of meals',
+            items: List.generate(6, (index) => index + 1),
+            value: selectedNumberOfMeals,
+            onChanged: (val) => setState(() => selectedNumberOfMeals = val),
+            validator: (val) => val == null ? 'Please select number of meals' : null,
           ),
         ],
       ),
     );
   }
-} 
+
+  Widget buildTextField(String label,
+      {TextEditingController? controller, String? Function(String?)? validator}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: TextFormField(
+        controller: controller,
+        validator: validator,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: buttons_blue,
+              width: 2.0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildDropdownField<T>({
+    required String label,
+    required List<T> items,
+    T? value,
+    required void Function(T?) onChanged,
+    String? Function(T?)? validator,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: DropdownButtonFormField<T>(
+        value: value,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: buttons_blue,
+              width: 2.0,
+            ),
+          ),
+        ),
+        items: items.map((item) {
+          return DropdownMenuItem<T>(
+            value: item,
+            child: Text(item.toString()),
+          );
+        }).toList(),
+        onChanged: onChanged,
+        validator: validator,
+      ),
+    );
+  }
+}
