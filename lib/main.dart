@@ -93,6 +93,33 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileDisplayScreenBuilder(),
+                  ),
+                );
+              },
+              child: const Text(
+                'Get recommendation',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ],
         ),
       ),
