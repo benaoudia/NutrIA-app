@@ -6,8 +6,35 @@ import 'package:nutria/Screens/Profile and user info/PasswordChangeScreenBuilder
 
 const Color buttons_blue = Color.fromARGB(255, 103, 138, 150);
 
-class ProfileDisplayScreen extends StatelessWidget {
+class ProfileDisplayScreen extends StatefulWidget {
   const ProfileDisplayScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileDisplayScreen> createState() => _ProfileDisplayScreenState();
+}
+
+class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Initial data load
+    context.read<PersonalInfoCubit>().refreshData();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Refresh data when app comes back to foreground
+      context.read<PersonalInfoCubit>().refreshData();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +87,17 @@ class ProfileDisplayScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              state.email,
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 16,
+                            SizedBox(
+                              width: 180, // Adjust width as needed
+                              child: Text(
+                                state.email,
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 16,
+                                ),
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                                maxLines: 2,
                               ),
                             ),
                           ],
@@ -103,13 +136,17 @@ class ProfileDisplayScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 TextButton.icon(
-                                  onPressed: () {
-                                    Navigator.push(
+                                  onPressed: () async {
+                                    await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => const ProfileEditScreenBuilder(),
                                       ),
                                     );
+                                    // Refresh data after returning from edit screen
+                                    if (mounted) {
+                                      context.read<PersonalInfoCubit>().refreshData();
+                                    }
                                   },
                                   icon: const Icon(Icons.edit, color: buttons_blue, size: 18),
                                   label: const Text('Edit Profile', style: TextStyle(color: buttons_blue)),
@@ -119,13 +156,17 @@ class ProfileDisplayScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 4),
                                 TextButton.icon(
-                                  onPressed: () {
-                                    Navigator.push(
+                                  onPressed: () async {
+                                    await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => const PasswordChangeScreenBuilder(),
                                       ),
                                     );
+                                    // Refresh data after returning from password screen
+                                    if (mounted) {
+                                      context.read<PersonalInfoCubit>().refreshData();
+                                    }
                                   },
                                   icon: const Icon(Icons.lock, color: buttons_blue, size: 18),
                                   label: const Text('Change Password', style: TextStyle(color: buttons_blue)),

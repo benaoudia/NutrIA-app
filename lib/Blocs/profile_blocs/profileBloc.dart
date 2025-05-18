@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nutria/database/profile_repository.dart';
 
 abstract class PersonalInfoState extends Equatable {
   PersonalInfoState();
@@ -121,42 +122,78 @@ class PersonalInfoError extends PersonalInfoState {
 }
 
 class PersonalInfoCubit extends Cubit<PersonalInfoState> {
+  final ProfileRepository _repository = ProfileRepository();
+
   PersonalInfoCubit() : super(PersonalInfoInitial());
 
-  void initForm() {
-    emit(PersonalInfoLoaded());
+  Future<void> initForm() async {
+    try {
+      final profileData = await _repository.loadProfileData();
+      emit(PersonalInfoLoaded(
+        name: profileData['name'] ?? '',
+        email: profileData['email'] ?? '',
+        phone: profileData['phone'] ?? '',
+        country: profileData['country'] ?? '',
+        height: profileData['height'] ?? 0,
+        weight: profileData['weight'] ?? 0,
+        activityLevel: profileData['activityLevel'] ?? '',
+        gender: profileData['gender'] ?? '',
+        allergies: profileData['allergies'] ?? [],
+        goal: profileData['goal'] ?? '',
+        birthdate: profileData['birthdate'] ?? DateTime.utc(2000, 1, 1),
+        isFormValid: _validateForm(
+          name: profileData['name'] ?? '',
+          email: profileData['email'] ?? '',
+          country: profileData['country'] ?? '',
+          height: profileData['height'] ?? 0,
+          weight: profileData['weight'] ?? 0,
+          activityLevel: profileData['activityLevel'] ?? '',
+          gender: profileData['gender'] ?? '',
+          goal: profileData['goal'] ?? '',
+          birthdate: profileData['birthdate'] ?? DateTime.utc(2000, 1, 1),
+          phone: profileData['phone'] ?? '',
+        ),
+        step: profileData['step'] ?? 0,
+      ));
+    } catch (e) {
+      emit(PersonalInfoError(e.toString()));
+    }
   }
 
-  void updateName(String name) {
+  Future<void> updateName(String name) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('name', name);
       emit(currentState.copyWith(
         name: name,
       ));
     }
   }
 
-  void updateEmail(String email) {
+  Future<void> updateEmail(String email) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('email', email);
       emit(currentState.copyWith(
         email: email,
       ));
     }
   }
 
-  void updatePhone(String phone) {
+  Future<void> updatePhone(String phone) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('phone', phone);
       emit(currentState.copyWith(
         phone: phone,
       ));
     }
   }
 
-  void updateCountry(String country) {
+  Future<void> updateCountry(String country) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('country', country);
       emit(currentState.copyWith(
         country: country,
         isFormValid: _validateForm(
@@ -175,27 +212,30 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     }
   }
 
-  void updateHeight(int height) {
+  Future<void> updateHeight(int height) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('height', height);
       emit(currentState.copyWith(
         height: height,
       ));
     }
   }
 
-  void updateWeight(int weight) {
+  Future<void> updateWeight(int weight) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('weight', weight);
       emit(currentState.copyWith(
         weight: weight,
       ));
     }
   }
 
-  void updateActivityLevel(String activityLevel) {
+  Future<void> updateActivityLevel(String activityLevel) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('activityLevel', activityLevel);
       emit(currentState.copyWith(
         activityLevel: activityLevel,
         isFormValid: _validateForm(
@@ -214,9 +254,10 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     }
   }
 
-  void updateGender(String gender) {
+  Future<void> updateGender(String gender) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('gender', gender);
       emit(currentState.copyWith(
         gender: gender,
         isFormValid: _validateForm(
@@ -235,30 +276,20 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     }
   }
 
-  void updateAllergies(List allergies) {
+  Future<void> updateAllergies(List allergies) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('allergies', jsonEncode(allergies));
       emit(currentState.copyWith(
         allergies: allergies,
-        isFormValid: _validateForm(
-          name: currentState.name,
-          email: currentState.email,
-          country: currentState.country,
-          height: currentState.height,
-          weight: currentState.weight,
-          activityLevel: currentState.activityLevel,
-          gender: currentState.gender,
-          goal: currentState.goal,
-          birthdate: currentState.birthdate,
-          phone: currentState.phone,
-        ),
       ));
     }
   }
 
-  void updateGoal(String goal) {
+  Future<void> updateGoal(String goal) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('goal', goal);
       emit(currentState.copyWith(
         goal: goal,
         isFormValid: _validateForm(
@@ -277,9 +308,10 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     }
   }
 
-  void updateBirthdate(DateTime birthdate) {
+  Future<void> updateBirthdate(DateTime birthdate) async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('birthdate', birthdate.toIso8601String());
       emit(currentState.copyWith(
         birthdate: birthdate,
         isFormValid: _validateForm(
@@ -294,6 +326,16 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
           birthdate: birthdate,
           phone: currentState.phone,
         ),
+      ));
+    }
+  }
+
+  Future<void> updateStep(int step) async {
+    if (state is PersonalInfoLoaded) {
+      final currentState = state as PersonalInfoLoaded;
+      await _repository.updateField('step', step);
+      emit(currentState.copyWith(
+        step: step,
       ));
     }
   }
@@ -372,6 +414,40 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
       emit(currentState.copyWith(step: step));
+    }
+  }
+
+  Future<void> refreshData() async {
+    try {
+      final profileData = await _repository.loadProfileData();
+      emit(PersonalInfoLoaded(
+        name: profileData['name'] ?? '',
+        email: profileData['email'] ?? '',
+        phone: profileData['phone'] ?? '',
+        country: profileData['country'] ?? '',
+        height: profileData['height'] ?? 0,
+        weight: profileData['weight'] ?? 0,
+        activityLevel: profileData['activityLevel'] ?? '',
+        gender: profileData['gender'] ?? '',
+        allergies: profileData['allergies'] ?? [],
+        goal: profileData['goal'] ?? '',
+        birthdate: profileData['birthdate'] ?? DateTime.utc(2000, 1, 1),
+        isFormValid: _validateForm(
+          name: profileData['name'] ?? '',
+          email: profileData['email'] ?? '',
+          country: profileData['country'] ?? '',
+          height: profileData['height'] ?? 0,
+          weight: profileData['weight'] ?? 0,
+          activityLevel: profileData['activityLevel'] ?? '',
+          gender: profileData['gender'] ?? '',
+          goal: profileData['goal'] ?? '',
+          birthdate: profileData['birthdate'] ?? DateTime.utc(2000, 1, 1),
+          phone: profileData['phone'] ?? '',
+        ),
+        step: profileData['step'] ?? 0,
+      ));
+    } catch (e) {
+      emit(PersonalInfoError(e.toString()));
     }
   }
 }
