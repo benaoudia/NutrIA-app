@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:nutria/Screens/recommenderSystem/recommendation_result_screen.dart';
 import 'package:nutria/Widgets/assets/colors.dart';
 
 class Questions extends StatefulWidget {
@@ -38,6 +39,8 @@ class _QuestionsState extends State<Questions> {
     };
   }
 
+  bool isLoading = false;
+
   Future<void> sendRecommendationRequest() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -65,21 +68,40 @@ class _QuestionsState extends State<Questions> {
     // Add missing fields
     formData.addAll(getMissingFields());
 
+    setState(() {
+      isLoading = true;
+    });
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Center(child: CircularProgressIndicator()),
+    );
+
     print('Sending JSON: $formData');
 
     try {
       final response = await http.post(
-        Uri.parse('https://fdfc-105-235-133-240.ngrok-free.app/recommand'),
+        Uri.parse('https://13d4-41-111-187-83.ngrok-free.app/recommand'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(formData),
       );
 
+      Navigator.of(context).pop();
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         print('Response data: $data');
-        // You can navigate or update UI based on response here
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Recommendation received!')),
+        );
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RecommendationResultScreen(data: data),
+          ),
         );
       } else {
         print('Server error: ${response.statusCode}');
@@ -89,9 +111,14 @@ class _QuestionsState extends State<Questions> {
       }
     } catch (e) {
       print('Error sending request: $e');
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error sending request')),
       );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
