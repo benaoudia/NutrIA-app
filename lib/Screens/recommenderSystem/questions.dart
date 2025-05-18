@@ -79,10 +79,11 @@ class _QuestionsState extends State<Questions> {
     );
 
     print('Sending JSON: $formData');
+    // var url = "https://c885-41-111-187-86.ngrok-free.app"; 
 
     try {
       final response = await http.post(
-        Uri.parse('https://13d4-41-111-187-83.ngrok-free.app/recommand'),
+        Uri.parse('https://292a-41-111-187-86.ngrok-free.app/recommand'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(formData),
       );
