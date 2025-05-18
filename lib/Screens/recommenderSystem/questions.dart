@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +7,11 @@ import 'package:nutria/Screens/recommenderSystem/recommendation_result_screen.da
 import 'package:nutria/Widgets/assets/colors.dart';
 import 'package:nutria/database/profile_repository.dart';
 
-String calculateAge(DateTime birthdate) {
+String? calculateAge(DateTime birthdate) {
+  // if (birthdate == null) {
+  //   return "N/A"; // or any default value you prefer for null birthdates
+  // }
+  
   DateTime today = DateTime.now();
 
   int age = today.year - birthdate.year;
@@ -18,7 +23,36 @@ String calculateAge(DateTime birthdate) {
 
   return age.toString();
 }
+// String? calculateAge(DateTime? birthdate) {
+//   try {
+//     // Handle null birthdate
+//     if (birthdate == null) {
+//       print('calculateAge: birthdate is null');
+//       return null;
+//     }
+    
+//     DateTime today = DateTime.now();
+//     print('calculateAge: today = ${today.toIso8601String()}');
+//     print('calculateAge: birthdate = ${birthdate.toIso8601String()}');
 
+//     var age = today.year - birthdate.year;
+//     print('calculateAge: initial age calculation = $age');
+
+//     if (today.month < birthdate.month ||
+//         (today.month == birthdate.month && today.day < birthdate.day)) {
+//       age--;
+//       print('calculateAge: adjusted age after month/day check = $age');
+//     }
+
+//     return age.toString();
+//   } catch (e, stackTrace) {
+//     print('Error in calculateAge function:');
+//     print('Exception: $e');
+//     print('Stack trace:');
+//     print(stackTrace.toString());
+//     return null; // Return null in case of any error
+//   }
+// }
 class Questions extends StatefulWidget {
   const Questions({super.key});
 
@@ -99,7 +133,7 @@ class _QuestionsState extends State<Questions> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://c885-41-111-187-86.ngrok-free.app/recommand'),
+        Uri.parse('https://292a-41-111-187-86.ngrok-free.app/recommand'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(formData),
       );
