@@ -4,6 +4,20 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:nutria/Screens/recommenderSystem/recommendation_result_screen.dart';
 import 'package:nutria/Widgets/assets/colors.dart';
+import 'package:nutria/database/profile_repository.dart';
+
+String calculateAge(DateTime birthdate) {
+  DateTime today = DateTime.now();
+
+  int age = today.year - birthdate.year;
+
+  if (today.month < birthdate.month ||
+      (today.month == birthdate.month && today.day < birthdate.day)) {
+    age--;
+  }
+
+  return age.toString();
+}
 
 class Questions extends StatefulWidget {
   const Questions({super.key});
@@ -28,14 +42,16 @@ class _QuestionsState extends State<Questions> {
   String? selectedSpicyLevel;
   int? selectedNumberOfMeals;
 
-  Map<String, dynamic> getMissingFields() {
+  Future<Map<String, dynamic>> getMissingFields() async {
+    final _repository = ProfileRepository();
+    final missingData = await _repository.loadProfileData();
     return {
-      "Height": 170,
-      "Weight": 65,
-      "Activity_Level": "Moderately active",
-      "Gender": "female",
-      "Age": 28,
-      "Goal": "weight loss",
+      "Height": missingData["height"],
+      "Weight": missingData["weight"],
+      "Activity_Level": missingData["activityLevel"],
+      "Gender": missingData["gender"],
+      "Age": calculateAge(missingData["birthdate"]),
+      "Goal": missingData["goal"],
     };
   }
 
@@ -66,7 +82,7 @@ class _QuestionsState extends State<Questions> {
         value == null || (value is String && value.isEmpty) || (value is List && value.isEmpty));
 
     // Add missing fields
-    formData.addAll(getMissingFields());
+    formData.addAll(await getMissingFields());
 
     setState(() {
       isLoading = true;
@@ -82,7 +98,7 @@ class _QuestionsState extends State<Questions> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://13d4-41-111-187-83.ngrok-free.app/recommand'),
+        Uri.parse('https://c885-41-111-187-86.ngrok-free.app/recommand'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(formData),
       );
