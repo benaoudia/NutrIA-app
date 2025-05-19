@@ -133,7 +133,7 @@ class _QuestionsState extends State<Questions> {
 
     try {
       final response = await http.post(
-        Uri.parse('https://292a-41-111-187-86.ngrok-free.app/recommand'),
+        Uri.parse('https://9179-41-111-187-86.ngrok-free.app/recommand'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(formData),
       );
