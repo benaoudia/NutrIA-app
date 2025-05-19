@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:nutria/Screens/Profile%20and%20user%20info/ProfileScreenBuilder.dart';
 import '../../Widgets/assets/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup.dart';
-
+var ip = "10.80.13.149";
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -26,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     final response = await http.post(
-      Uri.parse('http://192.168.211.155:5000/login'),
+      Uri.parse('http://$ip:5000/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': emailController.text.trim(),
@@ -46,7 +47,13 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(
             content: Text('Login successful! Welcome ${data['user']['name']}')),
       );
-      // TODO: Navigate to home page
+       Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    // GO TO MAIN NOT PROFILE (WHEN MAIN IS DONE)
+                    builder: (context) => const ProfileScreenBuilder(),
+                  ),
+                );
     } else {
       setState(() {
         errorMessage = data['error'] ?? 'Login failed';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:nutria/Screens/Profile%20and%20user%20info/ProfileScreenBuilder.dart';
 import 'dart:convert';
 import '../../Widgets/assets/colors.dart';
 import './login.dart';
@@ -49,7 +50,7 @@ class _SignupPageState extends State<SignupPage> {
 
     try {
       // Replace with your Flask backend URL
-      final url = Uri.parse('http://192.168.211.155:5000/signup');
+      final url = Uri.parse('http://$ip:5000/signup');
 
       final response = await http.post(
         url,
@@ -71,10 +72,12 @@ class _SignupPageState extends State<SignupPage> {
                   responseData['message'] ?? 'User registered successfully')),
         );
         // Optionally, navigate to login
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-        );
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileScreenBuilder(),
+            ),
+          );
       } else {
         // Error
         ScaffoldMessenger.of(context).showSnackBar(

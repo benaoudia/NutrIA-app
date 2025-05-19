@@ -46,120 +46,124 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 103, 138, 150),
         foregroundColor: Colors.white,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 103, 138, 150),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProfileScreenBuilder(),
-                  ),
-                );
-              },
-              child: const Text(
-                'Initial Profile Setup',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 103, 138, 150),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProfileDisplayScreenBuilder(),
-                  ),
-                );
-              },
-              child: const Text(
-                'View Profile',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 103, 138, 150),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Questions(),
-                  ),
-                );
-              },
-              child: const Text(
-                'Get recommendation',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 103, 138, 150),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FirstPage(),
-                  ),
-                );
-              },
-              child: const Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: FirstPage(),
     );
   }
 }
+
+
+
+// Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => const ProfileScreenBuilder(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'Initial Profile Setup',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 16),
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => const ProfileDisplayScreenBuilder(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'View Profile',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 16),
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => Questions(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'Get recommendation',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 16),
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => FirstPage(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'Login',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
