@@ -1,0 +1,2 @@
+C:/Users/client/Desktop/myS6/grouproject/qppp/NutrIA-app/android/app/.cxx/Debug/1g5m1s2w/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/client/Desktop/myS6/grouproject/qppp/NutrIA-app/android/app/.cxx/Debug/1g5m1s2w/arm64-v8a/CMakeFiles/rebuild_cache.dir

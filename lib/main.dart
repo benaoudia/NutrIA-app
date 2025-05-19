@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nutria/Screens/Profile%20and%20user%20info/ProfileScreenBuilder.dart';
 import 'package:nutria/Screens/Profile%20and%20user%20info/ProfileDisplayScreenBuilder.dart';
 import 'package:nutria/Screens/chat_screen.dart';
+import 'package:nutria/Screens/loginsignup/login.dart';
+import 'package:nutria/Screens/loginsignup/signup.dart';
+import 'package:nutria/Screens/chat_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +25,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomeScreen(),
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage(),
+      },
     );
   }
 }
@@ -128,3 +135,120 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+// Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => const ProfileScreenBuilder(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'Initial Profile Setup',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 16),
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => const ProfileDisplayScreenBuilder(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'View Profile',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 16),
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => Questions(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'Get recommendation',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 16),
+//             ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: const Color.fromARGB(255, 103, 138, 150),
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//               ),
+//               onPressed: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => FirstPage(),
+//                   ),
+//                 );
+//               },
+//               child: const Text(
+//                 'Login',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.white,
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
