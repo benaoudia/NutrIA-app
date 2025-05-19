@@ -8,7 +8,7 @@ class PersonalInfo extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   PersonalInfo({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,10 +22,15 @@ class PersonalInfo extends StatelessWidget {
             ),
             title: Column(
               children: [
-                Text("Your Info", 
-                  style: TextStyle(fontSize: 25, color: Colors.grey[700], fontWeight: FontWeight.bold),
+                Text(
+                  "Your Info",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.bold),
                 ),
-                Text("Step 2/2",
+                Text(
+                  "Step 2/2",
                   style: TextStyle(fontSize: 15, color: Colors.grey[600]),
                 )
               ],
@@ -34,24 +39,24 @@ class PersonalInfo extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.white,
           ),
-          BlocConsumer<PersonalInfoCubit,PersonalInfoState>(
+          BlocConsumer<PersonalInfoCubit, PersonalInfoState>(
             listener: (context, state) {
-              if(state is PersonalInfoError){
+              if (state is PersonalInfoError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.errorMessage)),
                 );
               }
             },
-            builder: (context,state){
-              if(state is PersonalInfoLoading) {
+            builder: (context, state) {
+              if (state is PersonalInfoLoading) {
                 return SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator(color: buttons_blue)),
+                  child: Center(
+                      child: CircularProgressIndicator(color: buttons_blue)),
                 );
-              }
-              else if (state is PersonalInfoLoaded){
+              } else if (state is PersonalInfoLoaded) {
                 final cubit = context.read<PersonalInfoCubit>();
                 return SliverPadding(
-                  padding: EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20.0),
                   sliver: build_form(_formKey, cubit, state, context),
                 );
               }
@@ -59,9 +64,10 @@ class PersonalInfo extends StatelessWidget {
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text("Wait for a moment!", 
+                    child: Text(
+                      "Wait for a moment!",
                       style: TextStyle(
-                        color: Colors.grey[700], 
+                        color: Colors.grey[700],
                         fontSize: 22,
                         fontWeight: FontWeight.w500,
                       ),
@@ -82,12 +88,12 @@ class PersonalInfo extends StatelessWidget {
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: buttons_blue,
-            padding: EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
@@ -108,15 +114,18 @@ class PersonalInfo extends StatelessWidget {
   }
 }
 
-Widget build_form(GlobalKey<FormState> _formKey, PersonalInfoCubit cubit, PersonalInfoLoaded state, BuildContext context) {
+Widget build_form(GlobalKey<FormState> formKey, PersonalInfoCubit cubit,
+    PersonalInfoLoaded state, BuildContext context) {
   return SliverToBoxAdapter(
     child: Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: labels.map((item) {
           final label = item['label'] as String;
-          final initialValue = (item['initial'] as Function(PersonalInfoLoaded))(state);
-          final onChanged = (String val) => (item['update'] as Function(PersonalInfoCubit, String))(cubit, val);
+          final initialValue =
+              (item['initial'] as Function(PersonalInfoLoaded))(state);
+          onChanged(String val) => (item['update'] as Function(
+              PersonalInfoCubit, String))(cubit, val);
 
           IconData? icon;
           switch (label) {
@@ -139,7 +148,18 @@ Widget build_form(GlobalKey<FormState> _formKey, PersonalInfoCubit cubit, Person
               context: context,
               label: label,
               value: initialValue,
-              items: const ['','USA', 'Canada', 'UK', 'Australia', 'France', 'Germany', 'Japan', 'China', 'India'],
+              items: const [
+                '',
+                'USA',
+                'Canada',
+                'UK',
+                'Australia',
+                'France',
+                'Germany',
+                'Japan',
+                'China',
+                'India'
+              ],
               onChanged: (val) => onChanged(val ?? ''),
               icon: icon,
             );
@@ -169,7 +189,7 @@ Widget build_form(GlobalKey<FormState> _formKey, PersonalInfoCubit cubit, Person
                 ),
                 onChanged: onChanged,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           );
         }).toList(),
@@ -212,7 +232,7 @@ Widget _buildDropdownField({
         }).toList(),
         onChanged: onChanged,
       ),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
     ],
   );
-} 
+}

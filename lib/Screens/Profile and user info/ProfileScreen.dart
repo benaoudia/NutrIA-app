@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutria/Blocs/profile_blocs/profileBloc.dart';
-import 'package:nutria/Screens/Profile and user info/personalInfoitems.dart' as personal_info;
-import 'package:nutria/Screens/Profile and user info/form_items.dart' as form_info;
+import 'package:nutria/Screens/Profile and user info/personalInfoitems.dart'
+    as personal_info;
+import 'package:nutria/Screens/Profile and user info/form_items.dart'
+    as form_info;
 
 const Color buttons_blue = Color.fromARGB(255, 103, 138, 150);
 
@@ -220,7 +222,7 @@ Widget buildDropdownField({
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: buttons_blue, width: 2),
+        borderSide: const BorderSide(color: buttons_blue, width: 2),
       ),
       filled: true,
       fillColor: Colors.white,
@@ -228,7 +230,8 @@ Widget buildDropdownField({
     ),
     dropdownColor: Colors.white,
     iconEnabledColor: buttons_blue,
-    items: options.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+    items:
+        options.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
     onChanged: (val) {
       if (val != null) onChanged(val);
     },
@@ -236,7 +239,7 @@ Widget buildDropdownField({
 }
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   // Dropdown options
   static const genderOptions = ['Male', 'Female'];
@@ -311,7 +314,8 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: SafeArea(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0, vertical: 24.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -323,12 +327,13 @@ class ProfileScreen extends StatelessWidget {
                                 color: Colors.white.withOpacity(0.15),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.local_dining, color: Colors.white, size: 32),
+                              child: const Icon(Icons.local_dining,
+                                  color: Colors.white, size: 32),
                             ),
                             const SizedBox(width: 16),
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
                                   'Welcome to NutrIA!',
                                   style: TextStyle(
@@ -367,12 +372,13 @@ class ProfileScreen extends StatelessWidget {
                                 // Card
                                 Container(
                                   margin: const EdgeInsets.only(top: 40),
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 32),
                                   width: 380,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(32),
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                         color: Colors.black12,
                                         blurRadius: 16,
@@ -381,11 +387,12 @@ class ProfileScreen extends StatelessWidget {
                                     ],
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
                                     children: [
                                       const SizedBox(height: 40),
                                       // Step indicator
-                                      Text(
+                                      const Text(
                                         'Step 1/2',
                                         style: TextStyle(
                                           fontSize: 18,
@@ -398,113 +405,229 @@ class ProfileScreen extends StatelessWidget {
                                       // Form fields
                                       ListView.separated(
                                         shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         itemCount: items.length,
-                                        separatorBuilder: (_, __) => const SizedBox(height: 14),
+                                        separatorBuilder: (_, __) =>
+                                            const SizedBox(height: 14),
                                         itemBuilder: (context, index) {
                                           final item = items[index];
                                           final label = item['label'] as String;
-                                          final initial = (item['initial'] as dynamic Function(PersonalInfoLoaded))(state);
-                                          final icon = fieldIcons[label] ?? Icons.info;
+                                          final initial = (item['initial']
+                                              as dynamic Function(
+                                                  PersonalInfoLoaded))(state);
+                                          final icon =
+                                              fieldIcons[label] ?? Icons.info;
 
                                           // Dropdown fields
                                           if (label == 'Gender') {
-                                            return DropdownButtonFormField<String>(
-                                              value: genderOptions.contains(initial) ? initial : null,
+                                            return DropdownButtonFormField<
+                                                String>(
+                                              value: genderOptions
+                                                      .contains(initial)
+                                                  ? initial
+                                                  : null,
                                               decoration: InputDecoration(
                                                 labelText: label,
-                                                prefixIcon: Icon(icon, color: buttons_blue),
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                prefixIcon: Icon(icon,
+                                                    color: buttons_blue),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color: buttons_blue,
+                                                      width: 2),
                                                 ),
                                                 filled: true,
                                                 fillColor: Colors.white,
-                                                labelStyle: TextStyle(color: Colors.grey[700]),
-                                                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                labelStyle: TextStyle(
+                                                    color: Colors.grey[700]),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 8),
                                               ),
                                               dropdownColor: Colors.white,
                                               iconEnabledColor: buttons_blue,
-                                              items: genderOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                              items: genderOptions
+                                                  .map((e) => DropdownMenuItem(
+                                                      value: e, child: Text(e)))
+                                                  .toList(),
                                               onChanged: (val) {
-                                                if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                if (val != null) {
+                                                  (item['update']
+                                                          as dynamic Function(
+                                                              PersonalInfoCubit,
+                                                              String))(
+                                                      context.read<
+                                                          PersonalInfoCubit>(),
+                                                      val);
+                                                }
                                               },
                                             );
-                                          } else if (label == 'Activity Level') {
-                                            return DropdownButtonFormField<String>(
-                                              value: activityOptions.contains(initial) ? initial : null,
+                                          } else if (label ==
+                                              'Activity Level') {
+                                            return DropdownButtonFormField<
+                                                String>(
+                                              value: activityOptions
+                                                      .contains(initial)
+                                                  ? initial
+                                                  : null,
                                               decoration: InputDecoration(
                                                 labelText: label,
-                                                prefixIcon: Icon(icon, color: buttons_blue),
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                prefixIcon: Icon(icon,
+                                                    color: buttons_blue),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color: buttons_blue,
+                                                      width: 2),
                                                 ),
                                                 filled: true,
                                                 fillColor: Colors.white,
-                                                labelStyle: TextStyle(color: Colors.grey[700]),
-                                                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                labelStyle: TextStyle(
+                                                    color: Colors.grey[700]),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 8),
                                               ),
                                               dropdownColor: Colors.white,
                                               iconEnabledColor: buttons_blue,
-                                              items: activityOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                              items: activityOptions
+                                                  .map((e) => DropdownMenuItem(
+                                                      value: e, child: Text(e)))
+                                                  .toList(),
                                               onChanged: (val) {
-                                                if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                if (val != null) {
+                                                  (item['update']
+                                                          as dynamic Function(
+                                                              PersonalInfoCubit,
+                                                              String))(
+                                                      context.read<
+                                                          PersonalInfoCubit>(),
+                                                      val);
+                                                }
                                               },
                                             );
                                           } else if (label == 'Goal') {
-                                            return DropdownButtonFormField<String>(
-                                              value: goalOptions.contains(initial) ? initial : null,
+                                            return DropdownButtonFormField<
+                                                String>(
+                                              value:
+                                                  goalOptions.contains(initial)
+                                                      ? initial
+                                                      : null,
                                               decoration: InputDecoration(
                                                 labelText: label,
-                                                prefixIcon: Icon(icon, color: buttons_blue),
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                prefixIcon: Icon(icon,
+                                                    color: buttons_blue),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color: buttons_blue,
+                                                      width: 2),
                                                 ),
                                                 filled: true,
                                                 fillColor: Colors.white,
-                                                labelStyle: TextStyle(color: Colors.grey[700]),
-                                                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                labelStyle: TextStyle(
+                                                    color: Colors.grey[700]),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 8),
                                               ),
                                               dropdownColor: Colors.white,
                                               iconEnabledColor: buttons_blue,
-                                              items: goalOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                              items: goalOptions
+                                                  .map((e) => DropdownMenuItem(
+                                                      value: e, child: Text(e)))
+                                                  .toList(),
                                               onChanged: (val) {
-                                                if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                if (val != null) {
+                                                  (item['update']
+                                                          as dynamic Function(
+                                                              PersonalInfoCubit,
+                                                              String))(
+                                                      context.read<
+                                                          PersonalInfoCubit>(),
+                                                      val);
+                                                }
                                               },
                                             );
                                           } else if (label == 'Your country') {
-                                            return DropdownButtonFormField<String>(
-                                              value: countryOptions.contains(initial) ? initial : null,
+                                            return DropdownButtonFormField<
+                                                String>(
+                                              value: countryOptions
+                                                      .contains(initial)
+                                                  ? initial
+                                                  : null,
                                               decoration: InputDecoration(
                                                 labelText: label,
-                                                prefixIcon: Icon(icon, color: buttons_blue),
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                prefixIcon: Icon(icon,
+                                                    color: buttons_blue),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color: buttons_blue,
+                                                      width: 2),
                                                 ),
                                                 filled: true,
                                                 fillColor: Colors.white,
-                                                labelStyle: TextStyle(color: Colors.grey[700]),
-                                                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                labelStyle: TextStyle(
+                                                    color: Colors.grey[700]),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 8),
                                               ),
                                               dropdownColor: Colors.white,
                                               iconEnabledColor: buttons_blue,
-                                              items: countryOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                              items: countryOptions
+                                                  .map((e) => DropdownMenuItem(
+                                                      value: e, child: Text(e)))
+                                                  .toList(),
                                               onChanged: (val) {
-                                                if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                if (val != null) {
+                                                  (item['update']
+                                                          as dynamic Function(
+                                                              PersonalInfoCubit,
+                                                              String))(
+                                                      context.read<
+                                                          PersonalInfoCubit>(),
+                                                      val);
+                                                }
                                               },
                                             );
                                           }
 
                                           // Date field
                                           if (label == 'Birthdate') {
-                                            final controller = TextEditingController(text: initial ?? '');
+                                            final controller =
+                                                TextEditingController(
+                                                    text: initial ?? '');
                                             final focusNode = FocusNode();
                                             return TextFormField(
                                               controller: controller,
@@ -513,31 +636,56 @@ class ProfileScreen extends StatelessWidget {
                                               cursorColor: Colors.grey[700],
                                               decoration: InputDecoration(
                                                 labelText: label,
-                                                prefixIcon: Icon(icon, color: buttons_blue),
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(12),
-                                                  borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                prefixIcon: Icon(icon,
+                                                    color: buttons_blue),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  borderSide: const BorderSide(
+                                                      color: buttons_blue,
+                                                      width: 2),
                                                 ),
                                                 filled: true,
                                                 fillColor: Colors.white,
-                                                labelStyle: TextStyle(color: Colors.grey[700]),
-                                                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                labelStyle: TextStyle(
+                                                    color: Colors.grey[700]),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 8),
                                               ),
                                               onTap: () async {
-                                                controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
-                                                DateTime? picked = await showDatePicker(
+                                                controller.selection =
+                                                    TextSelection(
+                                                        baseOffset: 0,
+                                                        extentOffset: controller
+                                                            .text.length);
+                                                DateTime? picked =
+                                                    await showDatePicker(
                                                   context: context,
-                                                  initialDate: DateTime.tryParse(initial) ?? DateTime(2000),
+                                                  initialDate:
+                                                      DateTime.tryParse(
+                                                              initial) ??
+                                                          DateTime(2000),
                                                   firstDate: DateTime(1900),
                                                   lastDate: DateTime.now(),
                                                   builder: (context, child) {
                                                     return Theme(
-                                                      data: Theme.of(context).copyWith(
-                                                        colorScheme: ColorScheme.light(
+                                                      data: Theme.of(context)
+                                                          .copyWith(
+                                                        colorScheme:
+                                                            const ColorScheme
+                                                                .light(
                                                           primary: buttons_blue,
-                                                          onPrimary: Colors.white,
-                                                          onSurface: Colors.black,
+                                                          onPrimary:
+                                                              Colors.white,
+                                                          onSurface:
+                                                              Colors.black,
                                                         ),
                                                       ),
                                                       child: child!,
@@ -545,9 +693,16 @@ class ProfileScreen extends StatelessWidget {
                                                   },
                                                 );
                                                 if (picked != null) {
-                                                  (item['update'] as dynamic Function(PersonalInfoCubit, String))(
-                                                    context.read<PersonalInfoCubit>(),
-                                                    picked.toIso8601String().split('T').first,
+                                                  (item['update']
+                                                      as dynamic Function(
+                                                          PersonalInfoCubit,
+                                                          String))(
+                                                    context.read<
+                                                        PersonalInfoCubit>(),
+                                                    picked
+                                                        .toIso8601String()
+                                                        .split('T')
+                                                        .first,
                                                   );
                                                 }
                                               },
@@ -557,43 +712,73 @@ class ProfileScreen extends StatelessWidget {
                                           // Default text field with controller and focus node
                                           return TextFormField(
                                             initialValue: initial ?? '',
-                                            keyboardType: getKeyboardType(label),
+                                            keyboardType:
+                                                getKeyboardType(label),
                                             cursorColor: Colors.grey[700],
                                             textAlign: TextAlign.start,
-                                            style: const TextStyle(fontSize: 16),
+                                            style:
+                                                const TextStyle(fontSize: 16),
                                             decoration: InputDecoration(
                                               labelText: label,
-                                              prefixIcon: Icon(icon, color: buttons_blue),
-                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                                              prefixIcon: Icon(icon,
+                                                  color: buttons_blue),
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12)),
                                               focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                borderSide: const BorderSide(
+                                                    color: buttons_blue,
+                                                    width: 2),
                                               ),
                                               filled: true,
                                               fillColor: Colors.white,
-                                              labelStyle: TextStyle(color: Colors.grey[700]),
-                                              contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                              labelStyle: TextStyle(
+                                                  color: Colors.grey[700]),
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 8),
                                             ),
                                             onChanged: (val) {
-                                              if (label == 'Your height' || label == 'Your weight') {
-                                                final number = int.tryParse(val);
+                                              if (label == 'Your height' ||
+                                                  label == 'Your weight') {
+                                                final number =
+                                                    int.tryParse(val);
                                                 if (number != null) {
                                                   if (label == 'Your height') {
-                                                    context.read<PersonalInfoCubit>().updateHeight(number);
+                                                    context
+                                                        .read<
+                                                            PersonalInfoCubit>()
+                                                        .updateHeight(number);
                                                   } else {
-                                                    context.read<PersonalInfoCubit>().updateWeight(number);
+                                                    context
+                                                        .read<
+                                                            PersonalInfoCubit>()
+                                                        .updateWeight(number);
                                                   }
                                                 }
                                               } else {
                                                 switch (label) {
                                                   case 'Your name':
-                                                    context.read<PersonalInfoCubit>().updateName(val);
+                                                    context
+                                                        .read<
+                                                            PersonalInfoCubit>()
+                                                        .updateName(val);
                                                     break;
                                                   case 'Your email':
-                                                    context.read<PersonalInfoCubit>().updateEmail(val);
+                                                    context
+                                                        .read<
+                                                            PersonalInfoCubit>()
+                                                        .updateEmail(val);
                                                     break;
                                                   case 'Your phone number':
-                                                    context.read<PersonalInfoCubit>().updatePhone(val);
+                                                    context
+                                                        .read<
+                                                            PersonalInfoCubit>()
+                                                        .updatePhone(val);
                                                     break;
                                                 }
                                               }
@@ -608,12 +793,20 @@ class ProfileScreen extends StatelessWidget {
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: buttons_blue,
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                            textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                            textStyle: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          child: const Text('Next', style: TextStyle(color: Colors.white)),
+                                          child: const Text('Next',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
                                           onPressed: () {
-                                            context.read<PersonalInfoCubit>().goToStep(1);
+                                            context
+                                                .read<PersonalInfoCubit>()
+                                                .goToStep(1);
                                           },
                                         ),
                                       ),
@@ -626,7 +819,8 @@ class ProfileScreen extends StatelessWidget {
                                   child: CircleAvatar(
                                     radius: 40,
                                     backgroundColor: Colors.grey[200],
-                                    child: Icon(Icons.person, size: 40, color: Colors.grey[400]),
+                                    child: Icon(Icons.person,
+                                        size: 40, color: Colors.grey[400]),
                                   ),
                                 ),
                               ],
@@ -646,19 +840,30 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                   child: SafeArea(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 24.0, vertical: 16.0),
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              context.read<PersonalInfoCubit>().goToStep(0);
+                                              context
+                                                  .read<PersonalInfoCubit>()
+                                                  .goToStep(0);
                                             },
-                                            child: Row(
+                                            child: const Row(
                                               children: [
-                                                Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 24),
-                                                const SizedBox(width: 4),
-                                                const Text('Back', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
+                                                Icon(Icons.arrow_back_ios_new,
+                                                    color: Colors.white,
+                                                    size: 24),
+                                                SizedBox(width: 4),
+                                                Text('Back',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
                                               ],
                                             ),
                                           ),
@@ -671,12 +876,13 @@ class ProfileScreen extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 32.0),
                                   child: Center(
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 32),
                                       width: 380,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(32),
-                                        boxShadow: [
+                                        boxShadow: const [
                                           BoxShadow(
                                             color: Colors.black12,
                                             blurRadius: 16,
@@ -685,10 +891,11 @@ class ProfileScreen extends StatelessWidget {
                                         ],
                                       ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
                                         children: [
                                           // Step indicator
-                                          Text(
+                                          const Text(
                                             'Step 2/2',
                                             style: TextStyle(
                                               fontSize: 18,
@@ -701,114 +908,263 @@ class ProfileScreen extends StatelessWidget {
                                           // Form fields (as in step 1)
                                           ListView.separated(
                                             shrinkWrap: true,
-                                            physics: const NeverScrollableScrollPhysics(),
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
                                             itemCount: items.length,
-                                            separatorBuilder: (_, __) => const SizedBox(height: 14),
+                                            separatorBuilder: (_, __) =>
+                                                const SizedBox(height: 14),
                                             itemBuilder: (context, index) {
                                               final item = items[index];
-                                              final label = item['label'] as String;
-                                              final initial = (item['initial'] as dynamic Function(PersonalInfoLoaded))(state);
-                                              final icon = fieldIcons[label] ?? Icons.info;
+                                              final label =
+                                                  item['label'] as String;
+                                              final initial = (item['initial']
+                                                      as dynamic Function(
+                                                          PersonalInfoLoaded))(
+                                                  state);
+                                              final icon = fieldIcons[label] ??
+                                                  Icons.info;
 
                                               // Dropdown fields
                                               if (label == 'Gender') {
-                                                return DropdownButtonFormField<String>(
-                                                  value: genderOptions.contains(initial) ? initial : null,
+                                                return DropdownButtonFormField<
+                                                    String>(
+                                                  value: genderOptions
+                                                          .contains(initial)
+                                                      ? initial
+                                                      : null,
                                                   decoration: InputDecoration(
                                                     labelText: label,
-                                                    prefixIcon: Icon(icon, color: buttons_blue),
-                                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                    prefixIcon: Icon(icon,
+                                                        color: buttons_blue),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color:
+                                                                  buttons_blue,
+                                                              width: 2),
                                                     ),
                                                     filled: true,
                                                     fillColor: Colors.white,
-                                                    labelStyle: TextStyle(color: Colors.grey[700]),
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                    labelStyle: TextStyle(
+                                                        color:
+                                                            Colors.grey[700]),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 8),
                                                   ),
                                                   dropdownColor: Colors.white,
-                                                  iconEnabledColor: buttons_blue,
-                                                  items: genderOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                                  iconEnabledColor:
+                                                      buttons_blue,
+                                                  items: genderOptions
+                                                      .map((e) =>
+                                                          DropdownMenuItem(
+                                                              value: e,
+                                                              child: Text(e)))
+                                                      .toList(),
                                                   onChanged: (val) {
-                                                    if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                    if (val != null) {
+                                                      (item['update']
+                                                              as dynamic Function(
+                                                                  PersonalInfoCubit,
+                                                                  String))(
+                                                          context.read<
+                                                              PersonalInfoCubit>(),
+                                                          val);
+                                                    }
                                                   },
                                                 );
                                               }
                                               if (label == 'Activity Level') {
-                                                return DropdownButtonFormField<String>(
-                                                  value: activityOptions.contains(initial) ? initial : null,
+                                                return DropdownButtonFormField<
+                                                    String>(
+                                                  value: activityOptions
+                                                          .contains(initial)
+                                                      ? initial
+                                                      : null,
                                                   decoration: InputDecoration(
                                                     labelText: label,
-                                                    prefixIcon: Icon(icon, color: buttons_blue),
-                                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                    prefixIcon: Icon(icon,
+                                                        color: buttons_blue),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color:
+                                                                  buttons_blue,
+                                                              width: 2),
                                                     ),
                                                     filled: true,
                                                     fillColor: Colors.white,
-                                                    labelStyle: TextStyle(color: Colors.grey[700]),
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                    labelStyle: TextStyle(
+                                                        color:
+                                                            Colors.grey[700]),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 8),
                                                   ),
                                                   dropdownColor: Colors.white,
-                                                  iconEnabledColor: buttons_blue,
-                                                  items: activityOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                                  iconEnabledColor:
+                                                      buttons_blue,
+                                                  items: activityOptions
+                                                      .map((e) =>
+                                                          DropdownMenuItem(
+                                                              value: e,
+                                                              child: Text(e)))
+                                                      .toList(),
                                                   onChanged: (val) {
-                                                    if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                    if (val != null) {
+                                                      (item['update']
+                                                              as dynamic Function(
+                                                                  PersonalInfoCubit,
+                                                                  String))(
+                                                          context.read<
+                                                              PersonalInfoCubit>(),
+                                                          val);
+                                                    }
                                                   },
                                                 );
                                               }
                                               if (label == 'Goal') {
-                                                return DropdownButtonFormField<String>(
-                                                  value: goalOptions.contains(initial) ? initial : null,
+                                                return DropdownButtonFormField<
+                                                    String>(
+                                                  value: goalOptions
+                                                          .contains(initial)
+                                                      ? initial
+                                                      : null,
                                                   decoration: InputDecoration(
                                                     labelText: label,
-                                                    prefixIcon: Icon(icon, color: buttons_blue),
-                                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                    prefixIcon: Icon(icon,
+                                                        color: buttons_blue),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color:
+                                                                  buttons_blue,
+                                                              width: 2),
                                                     ),
                                                     filled: true,
                                                     fillColor: Colors.white,
-                                                    labelStyle: TextStyle(color: Colors.grey[700]),
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                    labelStyle: TextStyle(
+                                                        color:
+                                                            Colors.grey[700]),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 8),
                                                   ),
                                                   dropdownColor: Colors.white,
-                                                  iconEnabledColor: buttons_blue,
-                                                  items: goalOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                                  iconEnabledColor:
+                                                      buttons_blue,
+                                                  items: goalOptions
+                                                      .map((e) =>
+                                                          DropdownMenuItem(
+                                                              value: e,
+                                                              child: Text(e)))
+                                                      .toList(),
                                                   onChanged: (val) {
-                                                    if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                    if (val != null) {
+                                                      (item['update']
+                                                              as dynamic Function(
+                                                                  PersonalInfoCubit,
+                                                                  String))(
+                                                          context.read<
+                                                              PersonalInfoCubit>(),
+                                                          val);
+                                                    }
                                                   },
                                                 );
                                               }
                                               if (label == 'Your country') {
-                                                return DropdownButtonFormField<String>(
-                                                  value: countryOptions.contains(initial) ? initial : null,
+                                                return DropdownButtonFormField<
+                                                    String>(
+                                                  value: countryOptions
+                                                          .contains(initial)
+                                                      ? initial
+                                                      : null,
                                                   decoration: InputDecoration(
                                                     labelText: label,
-                                                    prefixIcon: Icon(icon, color: buttons_blue),
-                                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                    prefixIcon: Icon(icon,
+                                                        color: buttons_blue),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color:
+                                                                  buttons_blue,
+                                                              width: 2),
                                                     ),
                                                     filled: true,
                                                     fillColor: Colors.white,
-                                                    labelStyle: TextStyle(color: Colors.grey[700]),
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                    labelStyle: TextStyle(
+                                                        color:
+                                                            Colors.grey[700]),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 8),
                                                   ),
                                                   dropdownColor: Colors.white,
-                                                  iconEnabledColor: buttons_blue,
-                                                  items: countryOptions.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                                  iconEnabledColor:
+                                                      buttons_blue,
+                                                  items: countryOptions
+                                                      .map((e) =>
+                                                          DropdownMenuItem(
+                                                              value: e,
+                                                              child: Text(e)))
+                                                      .toList(),
                                                   onChanged: (val) {
-                                                    if (val != null) (item['update'] as dynamic Function(PersonalInfoCubit, String))(context.read<PersonalInfoCubit>(), val);
+                                                    if (val != null) {
+                                                      (item['update']
+                                                              as dynamic Function(
+                                                                  PersonalInfoCubit,
+                                                                  String))(
+                                                          context.read<
+                                                              PersonalInfoCubit>(),
+                                                          val);
+                                                    }
                                                   },
                                                 );
                                               }
                                               if (label == 'Birthdate') {
-                                                final controller = TextEditingController(text: initial ?? '');
+                                                final controller =
+                                                    TextEditingController(
+                                                        text: initial ?? '');
                                                 final focusNode = FocusNode();
                                                 return TextFormField(
                                                   controller: controller,
@@ -817,31 +1173,65 @@ class ProfileScreen extends StatelessWidget {
                                                   cursorColor: Colors.grey[700],
                                                   decoration: InputDecoration(
                                                     labelText: label,
-                                                    prefixIcon: Icon(icon, color: buttons_blue),
-                                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                    prefixIcon: Icon(icon,
+                                                        color: buttons_blue),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color:
+                                                                  buttons_blue,
+                                                              width: 2),
                                                     ),
                                                     filled: true,
                                                     fillColor: Colors.white,
-                                                    labelStyle: TextStyle(color: Colors.grey[700]),
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                    labelStyle: TextStyle(
+                                                        color:
+                                                            Colors.grey[700]),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 8),
                                                   ),
                                                   onTap: () async {
-                                                    controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
-                                                    DateTime? picked = await showDatePicker(
+                                                    controller.selection =
+                                                        TextSelection(
+                                                            baseOffset: 0,
+                                                            extentOffset:
+                                                                controller.text
+                                                                    .length);
+                                                    DateTime? picked =
+                                                        await showDatePicker(
                                                       context: context,
-                                                      initialDate: DateTime.tryParse(initial) ?? DateTime(2000),
+                                                      initialDate:
+                                                          DateTime.tryParse(
+                                                                  initial) ??
+                                                              DateTime(2000),
                                                       firstDate: DateTime(1900),
                                                       lastDate: DateTime.now(),
-                                                      builder: (context, child) {
+                                                      builder:
+                                                          (context, child) {
                                                         return Theme(
-                                                          data: Theme.of(context).copyWith(
-                                                            colorScheme: ColorScheme.light(
-                                                              primary: buttons_blue,
-                                                              onPrimary: Colors.white,
-                                                              onSurface: Colors.black,
+                                                          data:
+                                                              Theme.of(context)
+                                                                  .copyWith(
+                                                            colorScheme:
+                                                                const ColorScheme
+                                                                    .light(
+                                                              primary:
+                                                                  buttons_blue,
+                                                              onPrimary:
+                                                                  Colors.white,
+                                                              onSurface:
+                                                                  Colors.black,
                                                             ),
                                                           ),
                                                           child: child!,
@@ -849,9 +1239,16 @@ class ProfileScreen extends StatelessWidget {
                                                       },
                                                     );
                                                     if (picked != null) {
-                                                      (item['update'] as dynamic Function(PersonalInfoCubit, String))(
-                                                        context.read<PersonalInfoCubit>(),
-                                                        picked.toIso8601String().split('T').first,
+                                                      (item['update']
+                                                          as dynamic Function(
+                                                              PersonalInfoCubit,
+                                                              String))(
+                                                        context.read<
+                                                            PersonalInfoCubit>(),
+                                                        picked
+                                                            .toIso8601String()
+                                                            .split('T')
+                                                            .first,
                                                       );
                                                     }
                                                   },
@@ -860,43 +1257,80 @@ class ProfileScreen extends StatelessWidget {
                                               // Default text field
                                               return TextFormField(
                                                 initialValue: initial ?? '',
-                                                keyboardType: getKeyboardType(label),
+                                                keyboardType:
+                                                    getKeyboardType(label),
                                                 cursorColor: Colors.grey[700],
                                                 textAlign: TextAlign.start,
-                                                style: const TextStyle(fontSize: 16),
+                                                style: const TextStyle(
+                                                    fontSize: 16),
                                                 decoration: InputDecoration(
                                                   labelText: label,
-                                                  prefixIcon: Icon(icon, color: buttons_blue),
-                                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                                  focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                    borderSide: BorderSide(color: buttons_blue, width: 2),
+                                                  prefixIcon: Icon(icon,
+                                                      color: buttons_blue),
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12)),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color: buttons_blue,
+                                                            width: 2),
                                                   ),
                                                   filled: true,
                                                   fillColor: Colors.white,
-                                                  labelStyle: TextStyle(color: Colors.grey[700]),
-                                                  contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                  labelStyle: TextStyle(
+                                                      color: Colors.grey[700]),
+                                                  contentPadding:
+                                                      const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 8,
+                                                          vertical: 8),
                                                 ),
                                                 onChanged: (val) {
-                                                  if (label == 'Your height' || label == 'Your weight') {
-                                                    final number = int.tryParse(val);
+                                                  if (label == 'Your height' ||
+                                                      label == 'Your weight') {
+                                                    final number =
+                                                        int.tryParse(val);
                                                     if (number != null) {
-                                                      if (label == 'Your height') {
-                                                        context.read<PersonalInfoCubit>().updateHeight(number);
+                                                      if (label ==
+                                                          'Your height') {
+                                                        context
+                                                            .read<
+                                                                PersonalInfoCubit>()
+                                                            .updateHeight(
+                                                                number);
                                                       } else {
-                                                        context.read<PersonalInfoCubit>().updateWeight(number);
+                                                        context
+                                                            .read<
+                                                                PersonalInfoCubit>()
+                                                            .updateWeight(
+                                                                number);
                                                       }
                                                     }
                                                   } else {
                                                     switch (label) {
                                                       case 'Your name':
-                                                        context.read<PersonalInfoCubit>().updateName(val);
+                                                        context
+                                                            .read<
+                                                                PersonalInfoCubit>()
+                                                            .updateName(val);
                                                         break;
                                                       case 'Your email':
-                                                        context.read<PersonalInfoCubit>().updateEmail(val);
+                                                        context
+                                                            .read<
+                                                                PersonalInfoCubit>()
+                                                            .updateEmail(val);
                                                         break;
                                                       case 'Your phone number':
-                                                        context.read<PersonalInfoCubit>().updatePhone(val);
+                                                        context
+                                                            .read<
+                                                                PersonalInfoCubit>()
+                                                            .updatePhone(val);
                                                         break;
                                                     }
                                                   }
@@ -911,12 +1345,23 @@ class ProfileScreen extends StatelessWidget {
                                             child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: buttons_blue,
-                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                textStyle: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
-                                              child: const Text('Calculate Calories', style: TextStyle(color: Colors.white)),
+                                              child: const Text(
+                                                  'Calculate Calories',
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
                                               onPressed: () {
-                                                context.read<PersonalInfoCubit>().submitForm();
+                                                context
+                                                    .read<PersonalInfoCubit>()
+                                                    .submitForm();
                                               },
                                             ),
                                           ),

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nutria/database/profile_repository.dart';
 
 abstract class PersonalInfoState extends Equatable {
-  PersonalInfoState();
+  const PersonalInfoState();
 
   @override
   List<Object?> get props => [];
@@ -96,26 +96,26 @@ class PersonalInfoLoaded extends PersonalInfoState {
 
   @override
   List<Object?> get props => [
-    name,
-    email,
-    phone,
-    country,
-    height,
-    weight,
-    activityLevel,
-    gender,
-    allergies,
-    goal,
-    birthdate,
-    isFormValid,
-    step,
-  ];
+        name,
+        email,
+        phone,
+        country,
+        height,
+        weight,
+        activityLevel,
+        gender,
+        allergies,
+        goal,
+        birthdate,
+        isFormValid,
+        step,
+      ];
 }
 
 class PersonalInfoError extends PersonalInfoState {
   final String errorMessage;
 
-  PersonalInfoError(this.errorMessage);
+  const PersonalInfoError(this.errorMessage);
 
   @override
   List<Object?> get props => [errorMessage];
@@ -360,13 +360,28 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     bool isActivityLevelValid = activityLevel.trim().isNotEmpty;
     bool isGenderValid = gender.trim().isNotEmpty;
     bool isGoalValid = goal.trim().isNotEmpty;
-    bool isPhoneValid = phone.trim().length >= 10;  // Example: validate phone length
+    bool isPhoneValid =
+        phone.trim().length >= 10; // Example: validate phone length
 
     final now = DateTime.now();
-    final age = now.year - birthdate.year - (now.month > birthdate.month || (now.month == birthdate.month && now.day >= birthdate.day) ? 0 : 1);
+    final age = now.year -
+        birthdate.year -
+        (now.month > birthdate.month ||
+                (now.month == birthdate.month && now.day >= birthdate.day)
+            ? 0
+            : 1);
     bool isAgeValid = age >= 10;
 
-    return isNameValid && isEmailValid && isCountryValid && isHeightValid && isWeightValid && isActivityLevelValid && isGenderValid && isGoalValid && isPhoneValid && isAgeValid;
+    return isNameValid &&
+        isEmailValid &&
+        isCountryValid &&
+        isHeightValid &&
+        isWeightValid &&
+        isActivityLevelValid &&
+        isGenderValid &&
+        isGoalValid &&
+        isPhoneValid &&
+        isAgeValid;
   }
 
   bool validateForm() {
@@ -384,7 +399,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
         birthdate: currentState.birthdate,
         phone: currentState.phone,
       );
-      
+
       emit(currentState.copyWith(isFormValid: isValid));
       return isValid;
     }
@@ -394,12 +409,13 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
   void submitForm() async {
     if (state is PersonalInfoLoaded) {
       final currentState = state as PersonalInfoLoaded;
-      
+
       if (!validateForm()) {
-        emit(PersonalInfoError('Please fill in all required fields correctly.'));
+        emit(
+            PersonalInfoError('Please fill in all required fields correctly.'));
         return;
       }
-      
+
       try {
         emit(PersonalInfoLoading());
         await Future.delayed(const Duration(seconds: 1));

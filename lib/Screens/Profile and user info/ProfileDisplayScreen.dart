@@ -7,13 +7,14 @@ import 'package:nutria/Screens/Profile and user info/PasswordChangeScreenBuilder
 const Color buttons_blue = Color.fromARGB(255, 103, 138, 150);
 
 class ProfileDisplayScreen extends StatefulWidget {
-  const ProfileDisplayScreen({Key? key}) : super(key: key);
+  const ProfileDisplayScreen({super.key});
 
   @override
   State<ProfileDisplayScreen> createState() => _ProfileDisplayScreenState();
 }
 
-class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with WidgetsBindingObserver {
+class _ProfileDisplayScreenState extends State<ProfileDisplayScreen>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -60,7 +61,8 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
                 ),
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 24.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -72,7 +74,8 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
                             color: Colors.white.withOpacity(0.15),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.person, color: Colors.white, size: 32),
+                          child: const Icon(Icons.person,
+                              color: Colors.white, size: 32),
                         ),
                         const SizedBox(width: 16),
                         Column(
@@ -120,11 +123,11 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(32),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
                               blurRadius: 16,
-                              offset: const Offset(0, 8),
+                              offset: Offset(0, 8),
                             ),
                           ],
                         ),
@@ -140,18 +143,24 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const ProfileEditScreenBuilder(),
+                                        builder: (context) =>
+                                            const ProfileEditScreenBuilder(),
                                       ),
                                     );
                                     // Refresh data after returning from edit screen
                                     if (mounted) {
-                                      context.read<PersonalInfoCubit>().refreshData();
+                                      context
+                                          .read<PersonalInfoCubit>()
+                                          .refreshData();
                                     }
                                   },
-                                  icon: const Icon(Icons.edit, color: buttons_blue, size: 18),
-                                  label: const Text('Edit Profile', style: TextStyle(color: buttons_blue)),
+                                  icon: const Icon(Icons.edit,
+                                      color: buttons_blue, size: 18),
+                                  label: const Text('Edit Profile',
+                                      style: TextStyle(color: buttons_blue)),
                                   style: TextButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                   ),
                                 ),
                                 const SizedBox(width: 4),
@@ -160,18 +169,24 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
                                     await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const PasswordChangeScreenBuilder(),
+                                        builder: (context) =>
+                                            const PasswordChangeScreenBuilder(),
                                       ),
                                     );
                                     // Refresh data after returning from password screen
                                     if (mounted) {
-                                      context.read<PersonalInfoCubit>().refreshData();
+                                      context
+                                          .read<PersonalInfoCubit>()
+                                          .refreshData();
                                     }
                                   },
-                                  icon: const Icon(Icons.lock, color: buttons_blue, size: 18),
-                                  label: const Text('Change Password', style: TextStyle(color: buttons_blue)),
+                                  icon: const Icon(Icons.lock,
+                                      color: buttons_blue, size: 18),
+                                  label: const Text('Change Password',
+                                      style: TextStyle(color: buttons_blue)),
                                   style: TextButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                   ),
                                 ),
                               ],
@@ -185,7 +200,8 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
                                 _buildInfoRow('Email', state.email),
                                 _buildInfoRow('Phone', state.phone),
                                 _buildInfoRow('Country', state.country),
-                                _buildInfoRow('Birthdate', state.birthdate.toString().split(' ')[0]),
+                                _buildInfoRow('Birthdate',
+                                    state.birthdate.toString().split(' ')[0]),
                               ],
                             ),
                             const SizedBox(height: 24),
@@ -196,7 +212,8 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
                                 _buildInfoRow('Height', '${state.height} cm'),
                                 _buildInfoRow('Weight', '${state.weight} kg'),
                                 _buildInfoRow('Gender', state.gender),
-                                _buildInfoRow('Activity Level', state.activityLevel),
+                                _buildInfoRow(
+                                    'Activity Level', state.activityLevel),
                               ],
                             ),
                             const SizedBox(height: 24),
@@ -269,4 +286,4 @@ class _ProfileDisplayScreenState extends State<ProfileDisplayScreen> with Widget
       ),
     );
   }
-} 
+}

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const Color buttons_blue = Color.fromARGB(255, 103, 138, 150);
 
 class PasswordChangeScreen extends StatefulWidget {
-  const PasswordChangeScreen({Key? key}) : super(key: key);
+  const PasswordChangeScreen({super.key});
 
   @override
   State<PasswordChangeScreen> createState() => _PasswordChangeScreenState();
@@ -44,7 +44,8 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
             ),
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0, vertical: 16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -52,9 +53,14 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                       onTap: () => Navigator.pop(context),
                       child: const Row(
                         children: [
-                          Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 24),
+                          Icon(Icons.arrow_back_ios_new,
+                              color: Colors.white, size: 24),
                           SizedBox(width: 4),
-                          Text('Back', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
+                          Text('Back',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500)),
                         ],
                       ),
                     ),
@@ -82,11 +88,11 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(32),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 16,
-                      offset: const Offset(0, 8),
+                      offset: Offset(0, 8),
                     ),
                   ],
                 ),
@@ -194,7 +200,8 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
         if (value == null || value.isEmpty) {
           return 'Please enter your password';
         }
-        if (label == 'Confirm New Password' && value != _newPasswordController.text) {
+        if (label == 'Confirm New Password' &&
+            value != _newPasswordController.text) {
           return 'Passwords do not match';
         }
         if (label == 'New Password' && value.length < 8) {
@@ -204,4 +211,4 @@ class _PasswordChangeScreenState extends State<PasswordChangeScreen> {
       },
     );
   }
-} 
+}

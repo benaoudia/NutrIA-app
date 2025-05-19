@@ -5,7 +5,7 @@ import 'package:nutria/Blocs/profile_blocs/profileBloc.dart';
 const Color buttons_blue = Color.fromARGB(255, 103, 138, 150);
 
 class ProfileEditScreen extends StatelessWidget {
-  const ProfileEditScreen({Key? key}) : super(key: key);
+  const ProfileEditScreen({super.key});
 
   // Dropdown options
   static const genderOptions = ['Male', 'Female'];
@@ -238,7 +238,8 @@ class ProfileEditScreen extends StatelessWidget {
                 ),
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 16.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -246,9 +247,14 @@ class ProfileEditScreen extends StatelessWidget {
                           onTap: () => Navigator.pop(context),
                           child: const Row(
                             children: [
-                              Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 24),
+                              Icon(Icons.arrow_back_ios_new,
+                                  color: Colors.white, size: 24),
                               SizedBox(width: 4),
-                              Text('Back', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
+                              Text('Back',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500)),
                             ],
                           ),
                         ),
@@ -276,11 +282,11 @@ class ProfileEditScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(32),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black12,
                           blurRadius: 16,
-                          offset: const Offset(0, 8),
+                          offset: Offset(0, 8),
                         ),
                       ],
                     ),
@@ -291,7 +297,9 @@ class ProfileEditScreen extends StatelessWidget {
                           label: 'Name',
                           value: state.name,
                           icon: Icons.person,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateName(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateName(value),
                         ),
                         const SizedBox(height: 16),
                         _buildTextField(
@@ -299,7 +307,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.email,
                           icon: Icons.email,
                           keyboardType: TextInputType.emailAddress,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateEmail(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateEmail(value),
                         ),
                         const SizedBox(height: 16),
                         _buildTextField(
@@ -307,7 +317,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.phone,
                           icon: Icons.phone,
                           keyboardType: TextInputType.phone,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updatePhone(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updatePhone(value),
                         ),
                         const SizedBox(height: 16),
                         _buildDropdownField(
@@ -315,7 +327,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.country,
                           options: countryOptions,
                           icon: Icons.flag,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateCountry(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateCountry(value),
                         ),
                         const SizedBox(height: 16),
                         _buildTextField(
@@ -323,7 +337,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.height.toString(),
                           icon: Icons.height,
                           keyboardType: TextInputType.number,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateHeight(int.tryParse(value) ?? 0),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateHeight(int.tryParse(value) ?? 0),
                         ),
                         const SizedBox(height: 16),
                         _buildTextField(
@@ -331,7 +347,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.weight.toString(),
                           icon: Icons.monitor_weight,
                           keyboardType: TextInputType.number,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateWeight(int.tryParse(value) ?? 0),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateWeight(int.tryParse(value) ?? 0),
                         ),
                         const SizedBox(height: 16),
                         _buildDropdownField(
@@ -339,7 +357,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.gender,
                           options: genderOptions,
                           icon: Icons.wc,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateGender(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateGender(value),
                         ),
                         const SizedBox(height: 16),
                         _buildDropdownField(
@@ -347,7 +367,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.activityLevel,
                           options: activityOptions,
                           icon: Icons.directions_run,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateActivityLevel(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateActivityLevel(value),
                         ),
                         const SizedBox(height: 16),
                         _buildDropdownField(
@@ -355,7 +377,9 @@ class ProfileEditScreen extends StatelessWidget {
                           value: state.goal,
                           options: goalOptions,
                           icon: Icons.flag_circle,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateGoal(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateGoal(value),
                         ),
                         const SizedBox(height: 16),
                         _buildDateField(
@@ -363,7 +387,9 @@ class ProfileEditScreen extends StatelessWidget {
                           label: 'Birthdate',
                           value: state.birthdate,
                           icon: Icons.cake,
-                          onChanged: (value) => context.read<PersonalInfoCubit>().updateBirthdate(value),
+                          onChanged: (value) => context
+                              .read<PersonalInfoCubit>()
+                              .updateBirthdate(value),
                         ),
                         const SizedBox(height: 24),
                         ElevatedButton(
@@ -450,14 +476,16 @@ class ProfileEditScreen extends StatelessWidget {
       dropdownColor: Colors.white,
       iconEnabledColor: buttons_blue,
       isExpanded: true,
-      items: options.map((e) => DropdownMenuItem(
-        value: e,
-        child: Text(
-          e,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontSize: 14),
-        ),
-      )).toList(),
+      items: options
+          .map((e) => DropdownMenuItem(
+                value: e,
+                child: Text(
+                  e,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ))
+          .toList(),
       onChanged: (val) {
         if (val != null) onChanged(val);
       },
@@ -471,7 +499,8 @@ class ProfileEditScreen extends StatelessWidget {
     required IconData icon,
     required Function(DateTime) onChanged,
   }) {
-    final controller = TextEditingController(text: value.toString().split(' ')[0]);
+    final controller =
+        TextEditingController(text: value.toString().split(' ')[0]);
     return TextFormField(
       controller: controller,
       readOnly: true,
@@ -496,7 +525,7 @@ class ProfileEditScreen extends StatelessWidget {
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.light(
+                colorScheme: const ColorScheme.light(
                   primary: buttons_blue,
                   onPrimary: Colors.white,
                   onSurface: Colors.black,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nutria/Screens/Profile%20and%20user%20info/PersonalInfoBuilder.dart';
 import 'package:nutria/Screens/Profile%20and%20user%20info/ProfileScreenBuilder.dart';
 import 'package:nutria/Screens/Profile%20and%20user%20info/ProfileDisplayScreenBuilder.dart';
 import 'package:nutria/Screens/chat_screen.dart';

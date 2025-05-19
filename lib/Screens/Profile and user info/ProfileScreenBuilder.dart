@@ -10,8 +10,7 @@ class ProfileScreenBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PersonalInfoCubit>(
       create: (context) => PersonalInfoCubit()..initForm(),
-      child: ProfileScreen(),
-
+      child: const ProfileScreen(),
     );
   }
 }
