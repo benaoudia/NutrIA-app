@@ -914,7 +914,7 @@ class ProfileScreen extends StatelessWidget {
                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                                 textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                               ),
-                                              child: const Text('Calculate Calories', style: TextStyle(color: Colors.white)),
+                                              child: const Text('Continue', style: TextStyle(color: Colors.white)),
                                               onPressed: () {
                                                 context.read<PersonalInfoCubit>().submitForm();
                                               },
