@@ -39,31 +39,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This HomeScreen navigates through the initial flow.
-    // In a real app, navigation from login/profile should be triggered
-    // by actions within those screens (e.g., a login button press).
+    // Navigate directly to the main app screen
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => FirstPage()),
-      ).then((_) {
-        // After login/signup page is presented (simulated completion),
-        // navigate to profile setup.
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ProfileScreenBuilder()),
-        ).then((_) {
-          // After profile setup is presented (simulated completion),
-          // navigate to the main app screen.
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const MainAppScreen()),
-          );
-        });
-      });
+        MaterialPageRoute(builder: (context) => const MainAppScreen()),
+      );
     });
 
-    // Show a loading indicator or splash screen while navigating
+    // Show a loading indicator while navigating
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: Center(
@@ -89,7 +73,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   static final List<Widget> _pages = <Widget>[
     Questions(), // Get recommendation (Index 0)
     const ProfileDisplayScreenBuilder(), // View Profile (Index 1)
-    const ChatbotDummyPage(), // Chatbot (Index 2)
+    const ChatbotDummyPage(), // Chatbot (Index 2)   
   ];
 
   void _onItemTapped(int index) {
@@ -106,39 +90,36 @@ class _MainAppScreenState extends State<MainAppScreen> {
         backgroundColor: const Color.fromARGB(255, 103, 138, 150),
         foregroundColor: Colors.white,
       ),
-      body: Center(
-        child: _pages.elementAt(_selectedIndex),
-      ),
+      body: _pages[_selectedIndex], // Changed from Center(child: _pages.elementAt(_selectedIndex))
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
-        backgroundColor: const Color.fromARGB(255, 103, 138, 150), // Accent color
+        backgroundColor: const Color.fromARGB(255, 103, 138, 150),
         foregroundColor: Colors.white,
         onPressed: () {
           _onItemTapped(2); // Navigate to Chatbot
         },
-        child: const Icon(Icons.chat_bubble), // Chatbot icon
+        child: const Icon(Icons.chat_bubble),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomPaint(
-        painter: BottomNavCurvePainter(Theme.of(context).primaryColor), // Use the custom painter
+        painter: BottomNavCurvePainter(Theme.of(context).primaryColor),
         child: BottomAppBar(
-          elevation: 0, // Remove default elevation
-          color: Colors.transparent, // Make BottomAppBar transparent
-          shape: const CircularNotchedRectangle(), // Still needed for FAB docking
+          elevation: 0,
+          color: Colors.transparent,
+          shape: const CircularNotchedRectangle(),
           notchMargin: 8.0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0), // Keep padding
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.recommend, color: _selectedIndex == 0 ? const Color.fromARGB(255, 103, 138, 150) : Colors.grey), // Recommend
+                  icon: Icon(Icons.recommend, color: _selectedIndex == 0 ? const Color.fromARGB(255, 103, 138, 150) : Colors.grey),
                   onPressed: () => _onItemTapped(0),
                 ),
-                // Placeholder for the central button - actual FAB is used
-                const SizedBox(width: 48), // The size of the FAB
+                const SizedBox(width: 48),
                 IconButton(
-                  icon: Icon(Icons.person, color: _selectedIndex == 1 ? const Color.fromARGB(255, 103, 138, 150) : Colors.grey), // Profile
+                  icon: Icon(Icons.person, color: _selectedIndex == 1 ? const Color.fromARGB(255, 103, 138, 150) : Colors.grey),
                   onPressed: () => _onItemTapped(1),
                 ),
               ],
