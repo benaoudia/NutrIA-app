@@ -50,7 +50,7 @@ NutriAI combines a Flutter mobile frontend with a Flask backend, utilizing BERT 
 
 Installation & Setup
 1. Clone the Repository
-
+git clone https://github.com/benaoudia/NutrIA-app.git
 cd nutriai
 3. Backend Setup
 cd backend
