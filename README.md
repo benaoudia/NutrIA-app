@@ -62,3 +62,27 @@ cp .env.example .env
 flutter pub get
 flutter run
 5. The recommender system backend and the app backend are not hosted so we need toc hange the url of the server for each run.
+
+ <h3>How to run the chatbot?</h3>
+  <p>Create a virtual environment in Python with:</p>
+  <pre><code>python -m venv .env</code></pre>
+
+  <p>Activate the environment:</p>
+  <ul>
+    <li><strong>On Windows:</strong> <code>.\.env\Scripts\activate</code></li>
+    <li><strong>On Linux:</strong> <code>source .env/bin/activate</code></li>
+  </ul>
+
+  <p>Install the dependencies from <code>requirements.txt</code> with:</p>
+  <pre><code>pip install -r requirements.txt</code></pre>
+
+  <p>If you encounter an error while installing packages, install them individually:</p>
+  <pre><code>pip install package-name</code></pre>
+
+  <p>Run the backend server with the command:</p>
+  <pre><code>uvicorn app.main:app --reload</code></pre>
+
+  <p>Let the server keep running, and in another terminal, launch the Flutter application with:</p>
+  <pre><code>flutter run</code></pre>
+
+  <p><strong>Et Voila!</strong> Enjoy the chatbot assistance 🎉</p>
