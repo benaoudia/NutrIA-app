@@ -1,16 +1,42 @@
 # nutria
 
-A new Flutter project.
+An intelligent nutrition companion that provides personalized meal recommendations and AI-guided nutrition assistance through advanced machine learning algorithms and natural language processing.
 
-## Getting Started
+NutriAI combines a Flutter mobile frontend with a Flask backend, utilizing BERT embeddings for semantic recipe matching and the Mistral-7B model for conversational AI assistance.
+┌─── Flutter Mobile App ───┐
+│  ├── Authentication      │
+│  ├── User Questionnaire  │
+│  ├── Recommendation UI   │
+│  └── AI Chat Interface   │
+└─────────────────────────┘
+           │
+           ▼
+┌──── Flask Backend API ────┐
+│  ├── Recipe Recommender  │
+│  ├── Mistral AI Chat     │
+│  ├── User Management     │
+│  └── Data Processing     │
+└───────────────────────────┘
+           │
+           ▼
+┌─── Data & Storage ────┐
+│  ├── SQLite (Local)  │
+│  ├── Supabase (Auth) │
+│  └── USDA Dataset    │
+└───────────────────────┘
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Installation & Setup
+1. Clone the Repository
+bashgit clone https://github.com/yourusername/nutriai.git
+cd nutriai
+2. Backend Setup
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env
+3. App running:
+flutter pub get
+flutter run
+4. The recommender system backend and the app backend are not hosted so we need toc hange the url of the server for each run.
